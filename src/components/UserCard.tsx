@@ -1,7 +1,7 @@
-const UserCard = ({type} : {type: string}) => {
+const UserCard = ({type} : {type:string}) => {
     return (
-        <div className="rounded-2xl odd:bg-">
-
+        <div className="rounded-2xl odd:bg-lamaPurple even:bg-lamaYellow p-4">
+            test    
         </div>
     )
 }
