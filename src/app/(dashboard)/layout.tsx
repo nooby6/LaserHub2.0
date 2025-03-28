@@ -4,11 +4,12 @@ export default function DashboardLayout ({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    return 
-            <div className="h-screen flex">{children}
+    return (
+            <div className="h-screen flex">
             {/* LEFT */}
-            <div className='w-1/6'>l</div>
+            <div className='w-[14%] bg-red-200'>l</div>
             {/* RIGHT */}
-            <div className='w-5/6'>r</div>
-            </div>;
+            <div className='w-[86%] bg-blue-200'>r</div>
+            </div>
+    );
 }
