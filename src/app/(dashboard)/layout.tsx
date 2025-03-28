@@ -7,8 +7,8 @@ export default function DashboardLayout ({
     return 
             <div className="h-screen flex">{children}
             {/* LEFT */}
-            <div className=">l</div>
+            <div className='w-1/6'>l</div>
             {/* RIGHT */}
-            <div className=">r</div>
+            <div className='w-5/6'>r</div>
             </div>;
 }
