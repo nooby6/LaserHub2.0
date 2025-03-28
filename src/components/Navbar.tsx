@@ -15,7 +15,7 @@ const Navbar = () => {
                 </div>
                 <div className="bg-white rounded-full p-2 shadow-md flex items-center gap-4 cursor-pointer relative">
                     <Image src="/announcement.png" alt="" width={20} height={20}/>
-                    <div className="absolute -top-3 -right-3 w-5 h-5 flex items-center justify-center bg-red-500 text-white rounded-full">
+                    <div className="absolute -top-3 -right-3 w-5 h-5 flex items-center justify-center bg-purple-500 text-white rounded-full">
                         2
                     </div>
                 </div>
