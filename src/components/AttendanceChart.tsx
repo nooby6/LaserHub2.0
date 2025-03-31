@@ -15,28 +15,28 @@ import {
 const data = [
   {
     name: "Mon",
-    present: 30,
-    absent: 10,
+    Present: 30,
+    Absent: 10,
   },
   {
     name: "Tue",
-    present: 40,
-    absent: 0,
+    Present: 40,
+    Absent: 0,
   },
   {
     name: "Wed",
-    present: 35,
-    absent: 5,
+    Present: 35,
+    Absent: 5,
   },
   {
     name: "Thu",
-    present: 9,
-    absent: 31,
+    Present: 9,
+    Absent: 31,
   },
   {
     name: "Fri",
-    present: 38,
-    absent: 2,
+    Present: 38,
+    Absent: 2,
   },
 ];
 
@@ -66,13 +66,13 @@ const AttendanceChart = () => {
             wrapperStyle={{ paddingTop: "20px", paddingBottom: "40px" }}
           />
           <Bar
-            dataKey="present"
+            dataKey="Present"
             fill="#FAE27C"
             legendType="circle"
             radius={[10, 10, 0, 0]}
           />
           <Bar
-            dataKey="absent"
+            dataKey="Absent"
             fill="#C3EBFA"
             legendType="circle"
             radius={[10, 10, 0, 0]}
