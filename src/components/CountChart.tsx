@@ -1,5 +1,6 @@
 "use client"
 import { RadialBarChart, RadialBar, Legend, ResponsiveContainer } from 'recharts';
+import Image from 'next/image';
 
 const data = [
   {
@@ -48,7 +49,34 @@ const data = [
 
 const CountChart = () => {
     return (
-        <div className="">CountChart</div>
+        <div className="bg-white rounded-xl w-full h-full p-4 shadow-lg">
+            {/* TITLE */}
+            <div className='flex justify-between items-center mb-4'>
+                <h1>Students</h1>
+                <Image src="/moreDark.png" alt='' width={20} height={20} />
+            </div>
+            {/* CHART */}
+            <div className=''>
+           {/* <ResponsiveContainer width="100%" height="100%">
+                <RadialBarChart cx="50%" cy="50%" innerRadius="10%" outerRadius="80%" barSize={10} data={data}>
+          <RadialBar
+            minAngle={15}
+            label={{ position: 'insideStart', fill: '#fff' }}
+            background
+            clockWise
+            dataKey="uv"
+          />
+          <Legend iconSize={10} layout="vertical" verticalAlign="middle" wrapperStyle={style} />
+        </RadialBarChart>
+      </ResponsiveContainer>
+                <RadialBarChart width={300} height={300} cx="50%" cy="50%" innerRadius="10%" outerRadius="80%" barSize={10} data={data}>
+                    <RadialBar minAngle={15} label={{ position: 'insideStart', fill: '#fff' }} background clockWise dataKey="uv" />
+                    <Legend iconSize={10} layout="vertical" verticalAlign="middle" wrapperStyle={{ top: 0, left: 350, lineHeight: '24px' }} />
+                </RadialBarChart> */}
+            </div>
+            {/* BOTTOM */}
+            <div className=''></div>
+        </div>
     )
 }
 
