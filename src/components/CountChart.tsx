@@ -10,17 +10,17 @@ import {
 const data = [
   {
     name: "Total",
-    count: 106,
+    count: 40,
     fill: "white",
   },
   {
     name: "Girls",
-    count: 53,
+    count: 20,
     fill: "#FAE27C",
   },
   {
     name: "Boys",
-    count: 53,
+    count: 20,
     fill: "#C3EBFA",
   },
 ];
