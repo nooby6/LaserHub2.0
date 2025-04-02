@@ -15,63 +15,63 @@ import {
 const data = [
   {
     name: "Jan",
-    income: 4000,
-    expense: 2400,
+    Income: 40000,
+    Expense: 2400,
   },
   {
     name: "Feb",
-    income: 3000,
-    expense: 1398,
+    Income: 300000,
+    Expense: 139008,
   },
   {
     name: "Mar",
-    income: 2000,
-    expense: 9800,
+    Income: 2000,
+    Expense: 9800,
   },
   {
     name: "Apr",
-    income: 2780,
-    expense: 3908,
+    Income: 2780,
+    Expense: 3908,
   },
   {
     name: "May",
-    income: 1890,
-    expense: 4800,
+    Income: 1890,
+    Expense: 4800,
   },
   {
     name: "Jun",
-    income: 2390,
-    expense: 3800,
+    Income: 239000,
+    Expense: 38000,
   },
   {
     name: "Jul",
-    income: 3490,
-    expense: 4300,
+    Income: 3490,
+    Expense: 4300,
   },
   {
     name: "Aug",
-    income: 3490,
-    expense: 4300,
+    Income: 3490,
+    Expense: 4300,
   },
   {
     name: "Sep",
-    income: 3490,
-    expense: 4300,
+    Income: 3490,
+    Expense: 4300,
   },
   {
     name: "Oct",
-    income: 3490,
-    expense: 4300,
+    Income: 3490,
+    Expense: 4300,
   },
   {
     name: "Nov",
-    income: 300000,
-    expense: 84000,
+    Income: 300000,
+    Expense: 84000,
   },
   {
     name: "Dec",
-    income: 3490,
-    expense: 4300,
+    Income: 3490,
+    Expense: 4300,
   },
 ];
 
@@ -111,11 +111,11 @@ const FinanceChart = () => {
           />
           <Line
             type="monotone"
-            dataKey="income"
+            dataKey="Income"
             stroke="#C3EBFA"
             strokeWidth={3}
           />
-          <Line type="monotone" dataKey="expense" stroke="#CFCEFF" strokeWidth={3}/>
+          <Line type="monotone" dataKey="Expense" stroke="#CFCEFF" strokeWidth={3}/>
         </LineChart>
       </ResponsiveContainer>
     </div>
