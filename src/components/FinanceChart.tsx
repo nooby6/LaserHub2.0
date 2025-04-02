@@ -65,8 +65,8 @@ const data = [
   },
   {
     name: "Nov",
-    income: 3490,
-    expense: 4300,
+    income: 300000,
+    expense: 84000,
   },
   {
     name: "Dec",
@@ -77,8 +77,8 @@ const data = [
 
 const FinanceChart = () => {
   return (
-    <div className="bg-white rounded-xl w-full h-full p-4">
-      <div className="flex justify-between items-center">
+    <div className="bg-white rounded-xl w-full h-full p-4 shadow-md flex flex-col gap-4 overflow-hidden">
+      <div className="flex justify-between items-center w-full">
         <h1 className="text-lg font-semibold">Finance</h1>
         <Image src="/moreDark.png" alt="" width={20} height={20} />
       </div>
@@ -98,11 +98,11 @@ const FinanceChart = () => {
           <XAxis
             dataKey="name"
             axisLine={false}
-            tick={{ fill: "#d1d5db" }}
+            tick={{ fill: "#black" }}
             tickLine={false}
             tickMargin={10}
           />
-          <YAxis axisLine={false} tick={{ fill: "#d1d5db" }} tickLine={false}  tickMargin={20}/>
+          <YAxis axisLine={false} tick={{ fill: "black" }} tickLine={false}  tickMargin={20}/>
           <Tooltip />
           <Legend
             align="center"
