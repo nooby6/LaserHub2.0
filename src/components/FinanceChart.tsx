@@ -102,7 +102,7 @@ const FinanceChart = () => {
             tickLine={false}
             tickMargin={10}
           />
-          <YAxis axisLine={false} tick={{ fill: "black" }} tickLine={false}  tickMargin={20}/>
+          <YAxis axisLine={false} tick={{ fill: "black" }} tickLine={false}  tickMargin={15}/>
           <Tooltip />
           <Legend
             align="center"
