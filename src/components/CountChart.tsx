@@ -58,12 +58,12 @@ const CountChart = () => {
       {/* BOTTOM */}
       <div className="flex justify-center gap-16">
         <div className="flex flex-col gap-1">
-          <div className="w-5 h-5 bg-lamaSky rounded-full" />
+          <div className="w-5 h-5 bg-laserSky rounded-full" />
           <h1 className="font-bold">20</h1>
           <h2 className="text-xs">Boys (50%)</h2>
         </div>
         <div className="flex flex-col gap-1">
-          <div className="w-5 h-5 bg-lamaYellow rounded-full" />
+          <div className="w-5 h-5 bg-laserYellow rounded-full" />
           <h1 className="font-bold">20</h1>
           <h2 className="text-xs">Girls (50%)</h2>
         </div>

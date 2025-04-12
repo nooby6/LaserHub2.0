@@ -22,5 +22,5 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 To learn more about Next.js, take a look at the following resources:
 
-- [Laser Hub Youtube Channel](https://youtube.com/lamadev) 
+- [Laser Hub Youtube Channel](https://youtube.com/laserdev) 
 - [Next.js](https://nextjs.org/learn)
