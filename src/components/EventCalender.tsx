@@ -82,7 +82,7 @@ const EventCalendar = () => {
             className="p-5 rounded-md border-2 border-gray-100 border-t-4 odd:border-t-laserSky even:border-t-laserPurple shadow-sm hover:shadow-md transition-all duration-200"
             key={event.id}
           >
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-2">
               <h1 className="font-semibold text-gray-600">{event.title}</h1>
               <span className="text-gray-300 text-xs">{event.time}</span>
             </div>
