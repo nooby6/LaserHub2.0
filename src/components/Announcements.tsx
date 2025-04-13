@@ -10,7 +10,7 @@ const Announcements = () => {
             <div className="flex items-center justify-between">
               <h2 className="font-medium">Exam Preparation</h2>
               <span className="text-xs text-gray-400 bg-white rounded-md px-1 py-1">
-                2025-01-01
+                2 days ago
               </span>
             </div>
             <p className="text-sm text-gray-400 mt-1">

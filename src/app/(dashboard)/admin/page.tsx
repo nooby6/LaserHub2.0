@@ -4,6 +4,7 @@ import FinanceChart from "@/components/FinanceChart";
 import UserCard from "@/components/UserCard";
 import EventCalendar from "@/components/EventCalender";
 import 'react-calendar/dist/Calendar.css';
+import Announcements from "@/components/Announcements";
 
 
 
@@ -40,6 +41,7 @@ const AdminPage = () => {
             {/* RIGHT SIDE */}
             <div className="w-full lg:w-1/3 flex flex-col gap-8">
                 <EventCalendar/>
+                <Announcements/>
             </div>
         </div>
     )
