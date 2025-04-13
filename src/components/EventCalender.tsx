@@ -31,6 +31,41 @@ const events = [
   },
 ];
 
+/**
+ * EventCalendar Component
+ *
+ * This component renders a calendar and a list of events. It allows users to select a date
+ * and view events associated with the selected date. The component is styled with Tailwind CSS
+ * for a modern and responsive design.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered EventCalendar component.
+ *
+ * @remarks
+ * - The `useState` hook is used to manage the selected date.
+ * - The `Calendar` component is used for date selection.
+ * - Events are displayed in a list format with alternating border colors for visual distinction.
+ * - The `events` array is expected to be available in the component's scope, containing event details.
+ *
+ * @example
+ * ```tsx
+ * const events = [
+ *   { id: 1, title: "Meeting", time: "10:00 AM", description: "Team meeting in Room 1" },
+ *   { id: 2, title: "Workshop", time: "2:00 PM", description: "React workshop in Hall A" },
+ * ];
+ *
+ * <EventCalendar />
+ * ```
+ *
+ * @dependencies
+ * - `useState` from React for state management.
+ * - `Calendar` component for date selection.
+ * - `Image` component for rendering icons or images.
+ *
+ * @styles
+ * - Tailwind CSS classes are used for styling the component.
+ * - Alternating border colors (`odd:border-t-laserSky` and `even:border-t-laserPurple`) are applied to event cards.
+ */
 const EventCalendar = () => {
   const [value, onChange] = useState<Value>(new Date());
 
