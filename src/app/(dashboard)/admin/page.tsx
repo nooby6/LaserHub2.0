@@ -12,7 +12,7 @@ const AdminPage = () => {
     return (
         <div className="p-4 flex gap-4 flex-col md:flex-row xl:flex-row xl:gap-8">
             {/* LEFT SIDE */}
-            <div className="w-full lg:w-2/3 flex flex-col gap-8 bg-gray p-4 rounded-md">
+            <div className="w-full lg:w-2/3 flex flex-col gap-8 bg-gray p-4 rounded-md bg-gray">
             {/* USER CARDS */}
             <div className="flex gap-4 justify-between flex-wrap md:flex-nowrap">
                 <UserCard type="Students"/>
