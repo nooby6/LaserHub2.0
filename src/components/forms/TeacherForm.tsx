@@ -27,6 +27,33 @@ const schema = z.object({
 
 type Inputs = z.infer<typeof schema>;
 
+/**
+ * A React component for rendering a form to create or update teacher information.
+ * This form utilizes `react-hook-form` for form handling and validation, and `zod` for schema validation.
+ *
+ * @param {Object} props - The component props.
+ * @param {"create" | "update"} props.type - Specifies the form type, either "create" for creating a new teacher or "update" for updating an existing teacher.
+ * @param {any} [props.data] - Optional pre-filled data for the form fields, used when updating an existing teacher.
+ *
+ * @returns {JSX.Element} A form component with fields for authentication and personal information.
+ *
+ * @remarks
+ * - The form includes fields for username, email, password, first name, last name, phone, address, blood type, birthday, sex, and an image upload.
+ * - Validation errors are displayed below each field when applicable.
+ * - The `onSubmit` handler logs the form data to the console.
+ *
+ * @example
+ * ```tsx
+ * <TeacherForm type="create" />
+ * <TeacherForm type="update" data={existingTeacherData} />
+ * ```
+ *
+ * @dependencies
+ * - `react-hook-form` for form state management.
+ * - `zod` for schema validation.
+ * - `InputField` component for rendering individual input fields.
+ * - `Image` component for rendering the upload icon.
+ */
 const TeacherForm = ({
   type,
   data,
@@ -139,7 +166,7 @@ const TeacherForm = ({
             </p>
           )}
         </div>
-        <div className="flex flex-col gap-2 w-full md:w-1/4 justify-center">
+        <div className="flex flex-col gap-2 w-full md:w-1/4 justify-center items-center">
           <label
             className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
             htmlFor="img"
