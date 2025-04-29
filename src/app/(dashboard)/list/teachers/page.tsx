@@ -1,206 +1,172 @@
-import Announcements from "@/components/Announcements";
-import BigCalendar from "@/components/BigCalender";
 import FormModal from "@/components/FormModal";
-import Performance from "@/components/Performance";
-import { role } from "@/lib/data";
+import Pagination from "@/components/Pagination";
+import Table from "@/components/Table";
+import TableSearch from "@/components/TableSearch";
+import { role, teachersData } from "@/lib/data";
 import Image from "next/image";
 import Link from "next/link";
 
+type Teacher = {
+  id: number;
+  teacherId: string;
+  name: string;
+  email?: string;
+  photo: string;
+  phone: string;
+  subjects: string[];
+  classes: string[];
+  address: string;
+};
+
+const columns = [
+  {
+    header: "Info",
+    accessor: "info",
+  },
+  {
+    header: "Teacher ID",
+    accessor: "teacherId",
+    className: "hidden md:table-cell",
+  },
+  {
+    header: "Subjects",
+    accessor: "subjects",
+    className: "hidden md:table-cell",
+  },
+  {
+    header: "Classes",
+    accessor: "classes",
+    className: "hidden md:table-cell",
+  },
+  {
+    header: "Phone",
+    accessor: "phone",
+    className: "hidden lg:table-cell",
+  },
+  {
+    header: "Address",
+    accessor: "address",
+    className: "hidden lg:table-cell",
+  },
+  {
+    header: "Actions",
+    accessor: "action",
+  },
+];
+
 /**
- * Component: SingleTeacherPage
- *
- * This component represents a detailed page for a single teacher, displaying their profile information,
- * performance metrics, schedule, and shortcuts to related actions. It is designed to be responsive and
- * adapts to different screen sizes using Tailwind CSS utility classes.
- *
- * @returns {JSX.Element} A JSX element rendering the teacher's detailed page.
- *
- * Layout:
- * - The page is divided into two main sections:
- *   1. **Left Section**:
- *      - Displays the teacher's profile information, performance metrics, and schedule.
- *      - Includes:
- *        - **User Info Card**: Displays the teacher's profile picture, name, and other details.
- *        - **Small Cards**: Show quick stats such as attendance, branches, lessons, and classes.
- *        - **Schedule Section**: A calendar component (`BigCalendar`) to display the teacher's schedule.
- *   2. **Right Section**:
- *      - Contains shortcuts to related actions and additional components like performance and announcements.
- *      - Includes:
- *        - **Shortcuts**: Links to teacher-related actions such as classes, students, lessons, exams, and assignments.
- *        - **Performance Component**: Displays performance metrics (imported as `Performance`).
- *        - **Announcements Component**: Displays announcements (imported as `Announcements`).
- *
- * Features:
- * - **Dynamic Role-Based UI**: If the user has an "admin" role, an update modal (`FormModal`) is displayed
- *   for editing teacher details.
- * - **Responsive Design**: Uses Tailwind CSS classes to ensure the layout adapts to various screen sizes.
- * - **Reusable Components**: Leverages reusable components like `Image`, `Link`, `BigCalendar`, `Performance`, and `Announcements`.
- *
- * Notes:
- * - The `role` variable is used to conditionally render the update modal. Ensure it is properly defined and passed to the component.
- * - The `BigCalendar` component is assumed to be a custom or third-party calendar component for displaying schedules.
- * - Placeholder data is used for some fields (e.g., teacher's name, email, and stats). Replace with dynamic data as needed.
- *
- * Tailwind CSS Classes:
- * - Utility classes are extensively used for styling, spacing, and responsiveness.
- * - Ensure the Tailwind CSS configuration includes the required custom colors (e.g., `laserSky`, `laserPurpleLight`, etc.).
+ * Component representing the Teacher List Page.
+ * 
+ * This component renders a list of teachers in a table format, with options for
+ * searching, filtering, sorting, and performing actions such as viewing or deleting
+ * teacher details. The component is designed to adapt to different screen sizes
+ * with responsive styling.
+ * 
+ * @component
+ * @returns {JSX.Element} The Teacher List Page component.
+ * 
+ * @remarks
+ * - The `renderRow` function is used to render individual rows of the teacher table.
+ * - Admin users have additional privileges, such as creating and deleting teacher records.
+ * - The table supports features like search, filter, and sort, which are represented by buttons.
+ * 
+ * @example
+ * ```tsx
+ * <TeacherListPage />
+ * ```
+ * 
+ * @function renderRow
+ * Renders a single row in the teacher table.
+ * 
+ * @param {Teacher} item - The teacher object containing details to display in the row.
+ * @returns {JSX.Element} A table row element representing a teacher.
+ * 
+ * @remarks
+ * - Displays teacher details such as name, email, ID, subjects, classes, phone, and address.
+ * - Includes action buttons for viewing and (if admin) deleting teacher records.
+ * 
+ * @dependencies
+ * - `Image`: Used to display teacher photos and action icons.
+ * - `Link`: Used for navigation to the teacher detail page.
+ * - `FormModal`: Used for creating or deleting teacher records.
+ * - `TableSearch`, `Table`, and `Pagination`: Used for managing and displaying the teacher list.
+ * 
+ * @props
+ * - `columns`: Defines the table columns.
+ * - `teachersData`: The data source for the teacher list.
+ * - `role`: Determines the user's role and associated permissions.
  */
-const SingleTeacherPage = () => {
+const TeacherListPage = () => {
+  const renderRow = (item: Teacher) => (
+    <tr
+      key={item.id}
+      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-laserPurpleLight"
+    >
+      <td className="flex items-center gap-4 p-4">
+        <Image
+          src={item.photo}
+          alt=""
+          width={40}
+          height={40}
+          className="md:hidden xl:block w-10 h-10 rounded-full object-cover"
+        />
+        <div className="flex flex-col">
+          <h3 className="font-semibold">{item.name}</h3>
+          <p className="text-xs text-gray-500">{item?.email}</p>
+        </div>
+      </td>
+      <td className="hidden md:table-cell">{item.teacherId}</td>
+      <td className="hidden md:table-cell">{item.subjects.join(",")}</td>
+      <td className="hidden md:table-cell">{item.classes.join(",")}</td>
+      <td className="hidden md:table-cell">{item.phone}</td>
+      <td className="hidden md:table-cell">{item.address}</td>
+      <td>
+        <div className="flex items-center gap-2">
+          <Link href={`/list/teachers/${item.id}`}>
+            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-laserSky">
+              <Image src="/view.png" alt="" width={16} height={16} />
+            </button>
+          </Link>
+          {role === "admin" && (
+            // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-laserPurple">
+            //   <Image src="/delete.png" alt="" width={16} height={16} />
+            // </button>
+            <FormModal table="teacher" type="delete" id={item.id}/>
+          )}
+        </div>
+      </td>
+    </tr>
+  );
+
   return (
-    <div className="flex-1 p-4 flex flex-col gap-4 xl:flex-row">
-      {/* LEFT */}
-      <div className="w-full xl:w-2/3">
-        {/* TOP */}
-        <div className="flex flex-col lg:flex-row gap-4">
-          {/* USER INFO CARD */}
-          <div className="bg-laserSky py-6 px-4 rounded-md flex-1 flex gap-4">
-            <div className="w-1/3">
-              <Image
-                src="https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                alt=""
-                width={144}
-                height={144}
-                className="w-36 h-36 rounded-full object-cover"
-              />
-            </div>
-            <div className="w-2/3 flex flex-col justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <h1 className="text-xl font-semibold">Leonard Snyder</h1>
-                {role === "admin" && <FormModal
-                  table="teacher"
-                  type="update"
-                  data={{
-                    id: 1,
-                    username: "deanguerrero",
-                    email: "deanguerrero@gmail.com",
-                    password: "password",
-                    firstName: "Dean",
-                    lastName: "Guerrero",
-                    phone: "+1 234 567 89",
-                    address: "1234 Main St, Anytown, USA",
-                    bloodType: "A+",
-                    dateOfBirth: "2000-01-01",
-                    sex: "male",
-                    img: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=1200",
-                  }}
-                />}
-              </div>
-              <p className="text-sm text-gray-500">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              </p>
-              <div className="flex items-center justify-between gap-2 flex-wrap text-xs font-medium">
-                <div className="w-full md:w-1/3 lg:w-full 2xl:w-1/3 flex items-center gap-2">
-                  <Image src="/blood.png" alt="" width={14} height={14} />
-                  <span>A+</span>
-                </div>
-                <div className="w-full md:w-1/3 lg:w-full 2xl:w-1/3 flex items-center gap-2">
-                  <Image src="/date.png" alt="" width={14} height={14} />
-                  <span>January 2025</span>
-                </div>
-                <div className="w-full md:w-1/3 lg:w-full 2xl:w-1/3 flex items-center gap-2">
-                  <Image src="/mail.png" alt="" width={14} height={14} />
-                  <span>user@gmail.com</span>
-                </div>
-                <div className="w-full md:w-1/3 lg:w-full 2xl:w-1/3 flex items-center gap-2">
-                  <Image src="/phone.png" alt="" width={14} height={14} />
-                  <span>+1 234 567</span>
-                </div>
-              </div>
-            </div>
+    <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">
+      {/* TOP */}
+      <div className="flex items-center justify-between">
+        <h1 className="hidden md:block text-lg font-semibold">All Teachers</h1>
+        <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
+          <TableSearch />
+          <div className="flex items-center gap-4 self-end">
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-laserYellow">
+              <Image src="/filter.png" alt="" width={14} height={14} />
+            </button>
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-laserYellow">
+              <Image src="/sort.png" alt="" width={14} height={14} />
+            </button>
+            {role === "admin" && (
+              // <button className="w-8 h-8 flex items-center justify-center rounded-full bg-laserYellow">
+              //   <Image src="/plus.png" alt="" width={14} height={14} />
+              // </button>
+              <FormModal table="teacher" type="create"/>
+            )}
           </div>
-          {/* SMALL CARDS */}
-          <div className="flex-1 flex gap-4 justify-between flex-wrap">
-            {/* CARD */}
-            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] 2xl:w-[48%]">
-              <Image
-                src="/singleAttendance.png"
-                alt=""
-                width={24}
-                height={24}
-                className="w-6 h-6"
-              />
-              <div className="">
-                <h1 className="text-xl font-semibold">90%</h1>
-                <span className="text-sm text-gray-400">Attendance</span>
-              </div>
-            </div>
-            {/* CARD */}
-            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] 2xl:w-[48%]">
-              <Image
-                src="/singleBranch.png"
-                alt=""
-                width={24}
-                height={24}
-                className="w-6 h-6"
-              />
-              <div className="">
-                <h1 className="text-xl font-semibold">2</h1>
-                <span className="text-sm text-gray-400">Branches</span>
-              </div>
-            </div>
-            {/* CARD */}
-            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] 2xl:w-[48%]">
-              <Image
-                src="/singleLesson.png"
-                alt=""
-                width={24}
-                height={24}
-                className="w-6 h-6"
-              />
-              <div className="">
-                <h1 className="text-xl font-semibold">6</h1>
-                <span className="text-sm text-gray-400">Lessons</span>
-              </div>
-            </div>
-            {/* CARD */}
-            <div className="bg-white p-4 rounded-md flex gap-4 w-full md:w-[48%] xl:w-[45%] 2xl:w-[48%]">
-              <Image
-                src="/singleClass.png"
-                alt=""
-                width={24}
-                height={24}
-                className="w-6 h-6"
-              />
-              <div className="">
-                <h1 className="text-xl font-semibold">6</h1>
-                <span className="text-sm text-gray-400">Classes</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* BOTTOM */}
-        <div className="mt-4 bg-white rounded-md p-4 h-[800px]">
-          <h1>Teacher&apos;s Schedule</h1>
-          <BigCalendar />
         </div>
       </div>
-      {/* RIGHT */}
-      <div className="w-full xl:w-1/3 flex flex-col gap-4">
-        <div className="bg-white p-4 rounded-md">
-          <h1 className="text-xl font-semibold">Shortcuts</h1>
-          <div className="mt-4 flex gap-4 flex-wrap text-xs text-gray-500">
-            <Link className="p-3 rounded-md bg-laserSkyLight" href="/">
-              Teacher&apos;s Classes
-            </Link>
-            <Link className="p-3 rounded-md bg-laserPurpleLight" href="/">
-              Teacher&apos;s Students
-            </Link>
-            <Link className="p-3 rounded-md bg-laserYellowLight" href="/">
-              Teacher&apos;s Lessons
-            </Link>
-            <Link className="p-3 rounded-md bg-pink-50" href="/">
-              Teacher&apos;s Exams
-            </Link>
-            <Link className="p-3 rounded-md bg-laserSkyLight" href="/">
-              Teacher&apos;s Assignments
-            </Link>
-          </div>
-        </div>
-        <Performance />
-        <Announcements />
-      </div>
+      {/* LIST */}
+      <Table columns={columns} renderRow={renderRow} data={teachersData} />
+      {/* PAGINATION */}
+      <Pagination />
     </div>
   );
 };
 
-export default SingleTeacherPage;
+export default TeacherListPage;
