@@ -134,11 +134,11 @@ const TeacherListPage = () => {
   );
 
   return (
-    <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0 ">
+    <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0 shadow-sm shadow-lg">
       {/* TOP */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-4">
         <h1 className="hidden md:block text-lg font-semibold">All Teachers</h1>
-        <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto shadow-sm rounded-md bg-laserSky p-2">
+        <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto shadow-sm rounded-md bg-laserSky p-2 gap-2">
           <TableSearch />
           <div className="flex items-center gap-4 self-end">
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-laserYellow">
