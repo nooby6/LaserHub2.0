@@ -20,7 +20,7 @@ export default function DashboardLayout({
                     className="flex items-center justify-center lg:justify-start gap-2 text-[#1E1E2F] font-semibold text-xl"
                 >
                     {/* Logo image */}
-                    <Image src="/logo.png" alt="logo" width={32} height={32} />
+                    <Image src="/logo.jpg" alt="logo" width={32} height={32} />
                     {/* Brand name, visible only on larger screens */}
                     <span className="hidden lg:block font-bold">Laser Learning Hub</span>
                 </Link>
