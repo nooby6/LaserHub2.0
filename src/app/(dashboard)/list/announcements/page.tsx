@@ -39,7 +39,7 @@ const AnnouncementListPage = () => {
     const renderRow = (item: Announcement) => (
         <tr
             key={item.id} // Unique key for each row
-            className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
+            className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-laserPurpleLight"
         >
             <td className="flex items-center gap-4 p-4">{item.title}</td>
             <td>{item.class}</td>
@@ -71,11 +71,11 @@ const AnnouncementListPage = () => {
                     <TableSearch />
                     <div className="flex items-center gap-4 self-end">
                         {/* Filter button */}
-                        <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
+                        <button className="w-8 h-8 flex items-center justify-center rounded-full bg-laserYellow">
                             <Image src="/filter.png" alt="" width={14} height={14} />
                         </button>
                         {/* Sort button */}
-                        <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
+                        <button className="w-8 h-8 flex items-center justify-center rounded-full bg-laserYellow">
                             <Image src="/sort.png" alt="" width={14} height={14} />
                         </button>
                         {/* Create announcement button, visible only for admin */}

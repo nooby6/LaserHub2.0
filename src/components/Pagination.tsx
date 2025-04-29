@@ -19,7 +19,7 @@
  * ```
  *
  * @note
- * - The `bg-lamaSky` class used for the active page button should be defined in your CSS or Tailwind configuration.
+ * - The `bg-laserSky` class used for the active page button should be defined in your CSS or Tailwind configuration.
  * - Additional functionality, such as handling button clicks or dynamically enabling/disabling buttons, can be added as needed.
  */
 const Pagination = () => {
@@ -32,7 +32,7 @@ const Pagination = () => {
           Prev
         </button>
         <div className="flex items-center gap-2 text-sm">
-          <button className="px-2 rounded-sm bg-lamaSky">1</button>
+          <button className="px-2 rounded-sm bg-laserSky">1</button>
           <button className="px-2 rounded-sm ">2</button>
           <button className="px-2 rounded-sm ">3</button>
           ...
