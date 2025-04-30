@@ -113,7 +113,7 @@ const FormModal = ({
         <span className="text-center font-medium">
           All data will be lost. Are you sure you want to delete this {table}?
         </span>
-        <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center">
+        <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center hover:bg-red-800 transition-all duration-200 ease-in-out">
           Delete
         </button>
       </form>
