@@ -108,8 +108,8 @@ const SingleTeacherPage = () => {
                 className="w-6 h-6"
               />
               <div>
-                <h1 className="text-xl font-semibold">2</h1>
-                <span className="text-sm text-gray-400">Branches</span>
+                <h1 className="text-xl font-semibold">3</h1>
+                <span className="text-sm text-gray-400">Subjects</span>
               </div>
             </div>
             {/* Lessons Card */}
