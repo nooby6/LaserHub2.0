@@ -24,29 +24,33 @@ const forms: {
 };
 
 /**
- * A reusable modal component for handling form operations such as creating, updating, or deleting data.
- * The modal dynamically renders forms based on the provided `table` and `type` props.
+ * A React functional component that renders a modal form for performing CRUD operations
+ * on various entities such as teacher, student, parent, and more. The modal's behavior
+ * and appearance are determined by the `type` and `table` props.
  *
- * @param {Object} props - The props object for the `FormModal` component.
+ * @param {Object} props - The props object for the component.
  * @param {"teacher" | "student" | "parent" | "subject" | "class" | "lesson" | "exam" | "assignment" | "result" | "attendance" | "event" | "announcement"} props.table
- * The type of table for which the form is being rendered. Determines the context of the operation.
+ * The type of entity for which the form is being rendered. Determines the context of the form.
+ * 
  * @param {"create" | "update" | "delete"} props.type
- * The type of operation to perform. Can be one of:
- * - `"create"`: For creating new entries.
- * - `"update"`: For updating existing entries.
- * - `"delete"`: For deleting entries.
+ * The type of operation to be performed. Determines the form's purpose and layout:
+ * - `"create"`: For creating a new entity.
+ * - `"update"`: For updating an existing entity.
+ * - `"delete"`: For deleting an entity.
+ * 
  * @param {any} [props.data]
- * Optional data to pre-fill the form when updating an entry. Ignored for `create` and `delete` operations.
+ * Optional data to pre-fill the form when updating an entity. Ignored for create and delete operations.
+ * 
  * @param {number} [props.id]
- * Optional ID of the entry to delete. Required for `delete` operations.
- *
- * @returns {JSX.Element} A button that opens a modal containing the appropriate form for the specified operation.
+ * Optional ID of the entity to be deleted. Required for delete operations.
+ * 
+ * @returns {JSX.Element} A button that opens a modal containing the appropriate form based on the provided props.
  *
  * @remarks
- * - The modal is styled with Tailwind CSS classes for responsiveness and design consistency.
- * - The `Form` function dynamically renders the form content based on the `type` and `table` props.
- * - For `delete` operations, a confirmation message is displayed with a delete button.
- * - For `create` and `update` operations, the form content is dynamically generated using the `forms` object.
+ * - The modal includes a close button to dismiss it.
+ * - For delete operations, a confirmation message is displayed.
+ * - For create and update operations, the form is dynamically rendered based on the `table` prop.
+ * - The modal is styled with Tailwind CSS classes for responsiveness and aesthetics.
  *
  * @example
  * ```tsx
@@ -54,21 +58,15 @@ const forms: {
  *   table="teacher"
  *   type="create"
  * />
- * ```
- *
- * @example
- * ```tsx
+ * 
  * <FormModal
  *   table="student"
  *   type="update"
  *   data={{ name: "John Doe", age: 16 }}
  * />
- * ```
- *
- * @example
- * ```tsx
+ * 
  * <FormModal
- *   table="class"
+ *   table="event"
  *   type="delete"
  *   id={123}
  * />
@@ -100,20 +98,20 @@ const FormModal = ({
   const size = type === "create" ? "w-8 h-8" : "w-7 h-7";
   const bgColor =
     type === "create"
-      ? "bg-laserYellow"
+      ? "bg-lamaYellow"
       : type === "update"
-      ? "bg-laserSky"
-      : "bg-laserPurple";
+      ? "bg-lamaSky"
+      : "bg-lamaPurple";
 
   const [open, setOpen] = useState(false);
 
   const Form = () => {
     return type === "delete" && id ? (
-      <form action="" className="p-4 flex flex-col gap-4 items-center">
+      <form action="" className="p-4 flex flex-col gap-4">
         <span className="text-center font-medium">
           All data will be lost. Are you sure you want to delete this {table}?
         </span>
-        <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center hover:bg-red-800 transition-all duration-200 ease-in-out">
+        <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center">
           Delete
         </button>
       </form>
