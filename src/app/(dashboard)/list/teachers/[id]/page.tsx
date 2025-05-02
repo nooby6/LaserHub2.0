@@ -21,7 +21,7 @@ const SingleTeacherPage = () => {
         {/* TOP SECTION */}
         <div className="flex flex-col lg:flex-row gap-4">
           {/* USER INFO CARD */}
-          <div className="bg-laserSky py-6 px-4 rounded-md flex-1 flex gap-4">
+          <div className="bg-laserSky py-6 px-4 rounded-md flex-1 flex gap-4 justify-between items-center">
             {/* Profile Image */}
             <div className="w-1/3">
               <Image
