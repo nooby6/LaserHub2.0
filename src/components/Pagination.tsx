@@ -1,48 +1,89 @@
+"use client";
+
+import { ITEM_PER_PAGE } from "@/lib/settings";
+import { useRouter } from "next/navigation";
+
 /**
- * Pagination Component
+ * Pagination component for navigating through paginated data.
  *
- * This component renders a simple pagination UI with "Prev" and "Next" buttons
- * and a set of page number buttons. It is designed to be used in applications
- * where paginated data needs to be displayed.
- *
- * @component
- * @returns {JSX.Element} A JSX element representing the pagination controls.
+ * @param {Object} props - The properties object.
+ * @param {number} props.page - The current page number.
+ * @param {number} props.count - The total number of items.
  *
  * @remarks
- * - The "Prev" button is disabled by default and styled accordingly.
- * - The page number buttons are displayed in a horizontal layout with a gap between them.
- * - The "Next" button is enabled by default and styled similarly to the "Prev" button.
+ * This component provides a simple pagination UI with "Prev" and "Next" buttons
+ * and a list of page numbers. It calculates whether the "Prev" and "Next" buttons
+ * should be enabled based on the current page and total item count.
  *
  * @example
  * ```tsx
- * <Pagination />
+ * <Pagination page={1} count={100} />
  * ```
  *
+ * @dependencies
+ * - `useRouter` from `next/router` is used for navigation.
+ * - `ITEM_PER_PAGE` is a constant that determines the number of items per page.
+ *
+ * @returns {JSX.Element} A pagination UI component.
+ *
  * @note
- * - The `bg-laserSky` class used for the active page button should be defined in your CSS or Tailwind configuration.
- * - Additional functionality, such as handling button clicks or dynamically enabling/disabling buttons, can be added as needed.
+ * Ensure that the `ITEM_PER_PAGE` constant is defined in the scope where this component is used.
+ * The component assumes that the `page` prop starts from 1 (not 0-indexed).
  */
-const Pagination = () => {
-    return (
-      <div className="p-4 flex items-center justify-between text-gray-500">
-        <button
-          disabled
-          className="py-2 px-4 rounded-md bg-slate-200 text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Prev
-        </button>
-        <div className="flex items-center gap-2 text-sm">
-          <button className="px-2 rounded-sm bg-laserSky">1</button>
-          <button className="px-2 rounded-sm ">2</button>
-          <button className="px-2 rounded-sm ">3</button>
-          ...
-          <button className="px-2 rounded-sm ">10</button>
-        </div>
-        <button className="py-2 px-4 rounded-md bg-slate-200 text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed">
-          Next
-        </button>
-      </div>
-    );
+const Pagination = ({ page, count }: { page: number; count: number }) => {
+  const router = useRouter();
+
+  const hasPrev = ITEM_PER_PAGE * (page - 1) > 0;
+  const hasNext = ITEM_PER_PAGE * (page - 1) + ITEM_PER_PAGE < count;
+
+  const changePage = (newPage: number) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set("page", newPage.toString());
+    router.push(`${window.location.pathname}?${params}`);
   };
-  
-  export default Pagination;
+  return (
+    <div className="p-4 flex items-center justify-between text-gray-500">
+      <button
+        disabled={!hasPrev}
+        className="py-2 px-4 rounded-md bg-slate-200 text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+        onClick={() => {
+          changePage(page - 1);
+        }}
+      >
+        Prev
+      </button>
+      <div className="flex items-center gap-2 text-sm">
+        {Array.from(
+          { length: Math.ceil(count / ITEM_PER_PAGE) },
+          (_, index) => {
+            const pageIndex = index + 1;
+            return (
+              <button
+                key={pageIndex}
+                className={`px-2 rounded-sm ${
+                  page === pageIndex ? "bg-lamaSky" : ""
+                }`}
+                onClick={() => {
+                  changePage(pageIndex);
+                }}
+              >
+                {pageIndex}
+              </button>
+            );
+          }
+        )}
+      </div>
+      <button
+        className="py-2 px-4 rounded-md bg-slate-200 text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled={!hasNext}
+        onClick={() => {
+          changePage(page + 1);
+        }}
+      >
+        Next
+      </button>
+    </div>
+  );
+};
+
+export default Pagination;

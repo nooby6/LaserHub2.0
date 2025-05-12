@@ -113,7 +113,7 @@ const FormContainer = async ({ table, type, data, id }: FormContainerProps) => {
         table={table}
         type={type}
         data={data}
-        id={id}
+        id={typeof id === "string" ? parseInt(id, 10) : id}
         relatedData={relatedData}
       />
     </div>
