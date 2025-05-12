@@ -160,7 +160,7 @@ async function main() {
                 score: 90, // Fixed score
                 studentId: `student${i}`, // Associated student
                 ...(i <
-      },
+      },x
     });
   }
 
