@@ -1,94 +1,111 @@
-import FormModal from "@/components/FormModal";
+import FormContainer from "@/components/FormContainer";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
-import { role, studentsData } from "@/lib/data";
+
+import prisma from "@/lib/prisma";
+import { ITEM_PER_PAGE } from "@/lib/settings";
+import { Class, Prisma, Student } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 
-type Student = {
-  id: number;
-  studentId: string;
-  name: string;
-  email?: string;
-  photo: string;
-  phone?: string;
-  grade: number;
-  class: string;
-  address: string;
-};
+import { auth } from "@clerk/nextjs/server";
 
-const columns = [
-  {
-    header: "Info",
-    accessor: "info",
-  },
-  {
-    header: "Student ID",
-    accessor: "studentId",
-    className: "hidden md:table-cell",
-  },
-  {
-    header: "Grade",
-    accessor: "grade",
-    className: "hidden md:table-cell",
-  },
-  {
-    header: "Phone",
-    accessor: "phone",
-    className: "hidden lg:table-cell",
-  },
-  {
-    header: "Address",
-    accessor: "address",
-    className: "hidden lg:table-cell",
-  },
-  {
-    header: "Actions",
-    accessor: "action",
-  },
-];
+type StudentList = Student & { class: Class };
 
 /**
- * The `StudentListPage` component renders a page displaying a list of students in a table format.
- * It includes features such as search, filtering, sorting, and pagination.
- * Admin users have additional options to create or delete student records.
+ * Represents the Student List Page component, which displays a paginated list of students
+ * with various details and actions based on the user's role.
  *
- * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Object} props.searchParams - The search parameters from the URL query string.
+ * @param {string | undefined} props.searchParams.[key] - A key-value pair representing query parameters.
  *
- * @returns {JSX.Element} A React component that renders the student list page.
+ * @returns {JSX.Element} The rendered Student List Page component.
+ *
+ * @async
  *
  * @remarks
- * - The table rows are dynamically rendered using the `renderRow` function.
- * - Admin-specific actions (create and delete) are conditionally displayed based on the `role` variable.
- * - The component uses utility components like `Table`, `TableSearch`, `Pagination`, and `FormModal`.
+ * - This component fetches data from the database using Prisma and displays it in a table format.
+ * - The table columns and actions are dynamically adjusted based on the user's role (`admin` or other).
+ * - Includes features like search, filtering, sorting, and pagination.
  *
  * @example
  * ```tsx
- * <StudentListPage />
+ * <StudentListPage searchParams={{ page: "1", search: "John" }} />
  * ```
  *
- * @dependencies
- * - `Image`: Used to display student photos and action icons.
- * - `Link`: Used for navigation to detailed views of individual students.
- * - `FormModal`: Used for creating or deleting student records.
- * - `Table`: Used to render the student list with dynamic rows.
- * - `Pagination`: Used for navigating through multiple pages of student data.
+ * @component
  *
- * @todo
- * - Ensure the `role` variable is properly defined and passed to the component.
- * - Add error handling for missing or invalid student data.
- * - Optimize the table for larger datasets.
+ * @dependencies
+ * - `auth`: Fetches session claims to determine the user's role.
+ * - `prisma`: Used to query the database for student data.
+ * - `Table`: A reusable table component for displaying data.
+ * - `Pagination`: A component for navigating between pages of data.
+ * - `FormContainer`: A component for handling create and delete actions.
+ * - `TableSearch`: A component for handling search functionality.
+ *
+ * @remarks
+ * The following features are included:
+ * - **Dynamic Columns**: Columns like "Actions" are conditionally rendered for admin users.
+ * - **Row Rendering**: Each student is rendered as a table row with their details and actions.
+ * - **Query Handling**: Supports filtering by teacher ID and searching by student name.
+ * - **Pagination**: Handles pagination logic based on the `page` query parameter.
+ *
+ * @remarks
+ * The component uses Tailwind CSS for styling and includes responsive design for different screen sizes.
  */
-const StudentListPage = () => {
-  const renderRow = (item: Student) => (
+const StudentListPage = async ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}) => {
+  const { sessionClaims } = await auth();
+  const role = (sessionClaims?.metadata as { role?: string })?.role;
+
+  const columns = [
+    {
+      header: "Info",
+      accessor: "info",
+    },
+    {
+      header: "Student ID",
+      accessor: "studentId",
+      className: "hidden md:table-cell",
+    },
+    {
+      header: "Grade",
+      accessor: "grade",
+      className: "hidden md:table-cell",
+    },
+    {
+      header: "Phone",
+      accessor: "phone",
+      className: "hidden lg:table-cell",
+    },
+    {
+      header: "Address",
+      accessor: "address",
+      className: "hidden lg:table-cell",
+    },
+    ...(role === "admin"
+      ? [
+          {
+            header: "Actions",
+            accessor: "action",
+          },
+        ]
+      : []),
+  ];
+
+  const renderRow = (item: StudentList) => (
     <tr
       key={item.id}
-      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-laserPurpleLight"
+      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
     >
       <td className="flex items-center gap-4 p-4">
         <Image
-          src={item.photo}
+          src={item.img || "/noAvatar.png"}
           alt=""
           width={40}
           height={40}
@@ -96,30 +113,73 @@ const StudentListPage = () => {
         />
         <div className="flex flex-col">
           <h3 className="font-semibold">{item.name}</h3>
-          <p className="text-xs text-gray-500">{item.class}</p>
+          <p className="text-xs text-gray-500">{item.class.name}</p>
         </div>
       </td>
-      <td className="hidden md:table-cell">{item.studentId}</td>
-      <td className="hidden md:table-cell">{item.grade}</td>
+      <td className="hidden md:table-cell">{item.username}</td>
+      <td className="hidden md:table-cell">{item.class.name[0]}</td>
       <td className="hidden md:table-cell">{item.phone}</td>
       <td className="hidden md:table-cell">{item.address}</td>
       <td>
         <div className="flex items-center gap-2">
-          <Link href={`/list/teachers/${item.id}`}>
-            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-laserSky">
+          <Link href={`/list/students/${item.id}`}>
+            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaSky">
               <Image src="/view.png" alt="" width={16} height={16} />
             </button>
           </Link>
           {role === "admin" && (
-            // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-laserPurple">
+            // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lamaPurple">
             //   <Image src="/delete.png" alt="" width={16} height={16} />
             // </button>
-            <FormModal table="student" type="delete" id={item.id}/>
+            <FormContainer table="student" type="delete" id={item.id} />
           )}
         </div>
       </td>
     </tr>
   );
+
+  const { page, ...queryParams } = searchParams;
+
+  const p = page ? parseInt(page) : 1;
+
+  // URL PARAMS CONDITION
+
+  const query: Prisma.StudentWhereInput = {};
+
+  if (queryParams) {
+    for (const [key, value] of Object.entries(queryParams)) {
+      if (value !== undefined) {
+        switch (key) {
+          case "teacherId":
+            query.class = {
+              lessons: {
+                some: {
+                  teacherId: value,
+                },
+              },
+            };
+            break;
+          case "search":
+            query.name = { contains: value, mode: "insensitive" };
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  }
+
+  const [data, count] = await prisma.$transaction([
+    prisma.student.findMany({
+      where: query,
+      include: {
+        class: true,
+      },
+      take: ITEM_PER_PAGE,
+      skip: ITEM_PER_PAGE * (p - 1),
+    }),
+    prisma.student.count({ where: query }),
+  ]);
 
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">
@@ -129,25 +189,25 @@ const StudentListPage = () => {
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
           <TableSearch />
           <div className="flex items-center gap-4 self-end">
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-laserYellow">
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/filter.png" alt="" width={14} height={14} />
             </button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-laserYellow">
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/sort.png" alt="" width={14} height={14} />
             </button>
             {role === "admin" && (
-              // <button className="w-8 h-8 flex items-center justify-center rounded-full bg-laserYellow">
+              // <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               //   <Image src="/plus.png" alt="" width={14} height={14} />
               // </button>
-              <FormModal table="student" type="create"/>
+              <FormContainer table="student" type="create" />
             )}
           </div>
         </div>
       </div>
       {/* LIST */}
-      <Table columns={columns} renderRow={renderRow} data={studentsData} />
+      <Table columns={columns} renderRow={renderRow} data={data} />
       {/* PAGINATION */}
-      <Pagination />
+      <Pagination page={p} count={count} />
     </div>
   );
 };
