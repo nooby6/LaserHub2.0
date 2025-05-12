@@ -1,14 +1,14 @@
 import Announcements from "@/components/Announcements";
 // Importing the BigCalendarContainer component for displaying the calendar
-import BigCalendarContainer from "@/components/BigCalendarContainer";
+import BigCalendarContainer from "@/components/BigCalenderContainer";
 
 // Importing the auth function from Clerk for authentication
 import { auth } from "@clerk/nextjs/server";
 
 // TeacherPage component definition
-const TeacherPage = () => {
+const TeacherPage = async () => {
   // Destructuring userId from the authentication object
-  const { userId } = auth();
+  const { userId } = await auth();
   return (
     <div className="flex-1 p-4 flex gap-4 flex-col xl:flex-row">
       {/* LEFT */}
