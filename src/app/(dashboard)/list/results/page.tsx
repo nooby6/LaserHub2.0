@@ -22,55 +22,6 @@ type ResultList = {
 };
 
 
-/**
- * Asynchronous React component that renders a paginated list of results
- * based on user roles and search parameters. The component dynamically
- * adjusts its behavior and displayed data based on the user's role
- * (admin, teacher, student, or parent) and query parameters.
- *
- * @param {Object} props - The component props.
- * @param {Object} props.searchParams - The search parameters from the URL.
- * @param {string | undefined} props.searchParams.[key] - Key-value pairs of search parameters.
- *
- * @returns {JSX.Element} A React component that displays a table of results
- * with pagination, search, and role-based actions.
- *
- * ### Features:
- * - **Dynamic Columns**: Adjusts table columns based on user roles.
- * - **Role-Based Querying**: Filters data based on the user's role.
- * - **Search Functionality**: Allows searching by student name or exam title.
- * - **Pagination**: Supports paginated data fetching and rendering.
- * - **Role-Based Actions**: Displays action buttons (create, update, delete) for admin and teacher roles.
- *
- * ### Query Logic:
- * - **Admin**: Can view all results.
- * - **Teacher**: Can view results related to their lessons.
- * - **Student**: Can view their own results.
- * - **Parent**: Can view results of their children.
- *
- * ### Data Fetching:
- * - Fetches results and their associated metadata (e.g., student, teacher, class, and assessment details)
- *   using Prisma's `findMany` and `count` methods.
- * - Supports filtering by `studentId` and `search` query parameters.
- *
- * ### Rendering:
- * - Renders a table with rows dynamically generated from the fetched data.
- * - Includes a search bar, filter and sort buttons, and pagination controls.
- *
- * ### Dependencies:
- * - `auth`: Fetches the current user's authentication and session details.
- * - `prisma`: Database client for querying results and related data.
- * - `FormContainer`: Component for handling create, update, and delete actions.
- * - `Table`, `TableSearch`, `Pagination`: UI components for rendering the table, search bar, and pagination.
- *
- * @example
- * // Example usage in a Next.js app
- * import ResultListPage from './path/to/page';
- *
- * export default function App() {
- *   return <ResultListPage searchParams={{ page: '1', search: 'John' }} />;
- * }
- */
 const ResultListPage = async ({
   searchParams,
 }: {

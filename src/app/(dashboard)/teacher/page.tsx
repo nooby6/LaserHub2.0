@@ -1,23 +1,25 @@
 import Announcements from "@/components/Announcements";
-import BigCalendar from "@/components/BigCalender";
+// Importing the BigCalendarContainer component for displaying the calendar
+import BigCalendarContainer from "@/components/BigCalendarContainer";
 
-// TeacherPage component represents the main dashboard page for teachers.
-// It displays a schedule using a calendar component and announcements in a responsive layout.
+// Importing the auth function from Clerk for authentication
+import { auth } from "@clerk/nextjs/server";
+
+// TeacherPage component definition
 const TeacherPage = () => {
+  // Destructuring userId from the authentication object
+  const { userId } = auth();
   return (
     <div className="flex-1 p-4 flex gap-4 flex-col xl:flex-row">
-      {/* LEFT: Schedule Section */}
+      {/* LEFT */}
       <div className="w-full xl:w-2/3">
         <div className="h-full bg-white p-4 rounded-md">
-          {/* Section Header */}
           <h1 className="text-xl font-semibold">Schedule</h1>
-          {/* Calendar Component */}
-          <BigCalendar />
+          <BigCalendarContainer type="teacherId" id={userId!} />
         </div>
       </div>
-      {/* RIGHT: Announcements Section */}
+      {/* RIGHT */}
       <div className="w-full xl:w-1/3 flex flex-col gap-8">
-        {/* Announcements Component */}
         <Announcements />
       </div>
     </div>
