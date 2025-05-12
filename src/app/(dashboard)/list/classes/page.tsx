@@ -1,97 +1,75 @@
-import FormModal from "@/components/FormModal";
+import FormContainer from "@/components/FormContainer";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
-import { classesData, role } from "@/lib/data";
+import prisma from "@/lib/prisma";
+import { ITEM_PER_PAGE } from "@/lib/settings";
+import { Class, Prisma, Teacher } from "@prisma/client";
 import Image from "next/image";
+import { auth } from "@clerk/nextjs/server";
 
-type Class = {
-  id: number;
-  name: string;
-  capacity: number;
-  grade: number;
-  supervisor: string;
-};
+// Define the type for a class list item, including the supervisor relationship
+type ClassList = Class & { supervisor: Teacher };
 
-const columns = [
-  {
-    header: "Class Name",
-    accessor: "name",
-  },
-  {
-    header: "Capacity",
-    accessor: "capacity",
-    className: "hidden md:table-cell",
-  },
-  {
-    header: "Grade",
-    accessor: "grade",
-    className: "hidden md:table-cell",
-  },
-  {
-    header: "Supervisor",
-    accessor: "supervisor",
-    className: "hidden md:table-cell",
-  },
-  {
-    header: "Actions",
-    accessor: "action",
-  },
-];
+const ClassListPage = async ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}) => {
+  // Retrieve session claims and determine the user's role
+  const { sessionClaims } = await auth();
+  const role = (sessionClaims?.metadata as { role?: string })?.role;
 
-/**
- * Component: ClassListPage
- *
- * This component renders a page displaying a list of classes with functionalities
- * such as search, filter, sort, and CRUD operations (Create, Read, Update, Delete)
- * for administrators. It is designed to be responsive and user-friendly.
- *
- * @component
- *
- * @description
- * - Displays a table of classes with details such as name, capacity, grade, and supervisor.
- * - Provides search functionality via the `TableSearch` component.
- * - Includes filter and sort buttons for enhanced usability.
- * - Allows administrators to perform CRUD operations on class data using the `FormModal` component.
- * - Supports pagination for managing large datasets via the `Pagination` component.
- *
- * @returns {JSX.Element} The rendered ClassListPage component.
- *
- * @remarks
- * - The `role` variable is used to conditionally render admin-specific functionalities.
- * - The `renderRow` function dynamically generates table rows for each class item.
- * - The `Table` component is used to render the class data in a tabular format.
- *
- * @example
- * ```tsx
- * <ClassListPage />
- * ```
- *
- * @dependencies
- * - `TableSearch`: A component for searching within the table.
- * - `FormModal`: A modal component for handling CRUD operations.
- * - `Table`: A reusable table component for rendering data.
- * - `Pagination`: A component for paginating the table data.
- *
- * @file
- * Located at: `/src/app/(dashboard)/list/classes/page.tsx`
- */
-const ClassListPage = () => {
-  const renderRow = (item: Class) => (
+  // Define the table columns dynamically based on the user's role
+  const columns = [
+    {
+      header: "Class Name",
+      accessor: "name",
+    },
+    {
+      header: "Capacity",
+      accessor: "capacity",
+      className: "hidden md:table-cell",
+    },
+    {
+      header: "Grade",
+      accessor: "grade",
+      className: "hidden md:table-cell",
+    },
+    {
+      header: "Supervisor",
+      accessor: "supervisor",
+      className: "hidden md:table-cell",
+    },
+    ...(role === "admin"
+      ? [
+          {
+            header: "Actions",
+            accessor: "action",
+          },
+        ]
+      : []),
+  ];
+
+  // Function to render a row in the table
+  const renderRow = (item: ClassList) => (
     <tr
       key={item.id}
-      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-laserPurpleLight"
+      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
     >
       <td className="flex items-center gap-4 p-4">{item.name}</td>
       <td className="hidden md:table-cell">{item.capacity}</td>
-      <td className="hidden md:table-cell">{item.grade}</td>
-      <td className="hidden md:table-cell">{item.supervisor}</td>
+      <td className="hidden md:table-cell">{item.name[0]}</td>
+      <td className="hidden md:table-cell">
+        {item.supervisor.name + " " + item.supervisor.surname}
+      </td>
       <td>
         <div className="flex items-center gap-2">
           {role === "admin" && (
             <>
-              <FormModal table="class" type="update" data={item} />
-              <FormModal table="class" type="delete" id={item.id} />
+              {/* Render update and delete buttons for admin users */}
+              <FormContainer table="class" type="update" data={item} />
+              <FormContainer table="class" type="delete" id={item.id} />
             </>
           )}
         </div>
@@ -99,28 +77,66 @@ const ClassListPage = () => {
     </tr>
   );
 
+  // Extract the current page and other query parameters from the search params
+  const { page, ...queryParams } = searchParams;
+  const p = page ? parseInt(page) : 1;
+
+  // Build the query object based on the provided search parameters
+  const query: Prisma.ClassWhereInput = {};
+  if (queryParams) {
+    for (const [key, value] of Object.entries(queryParams)) {
+      if (value !== undefined) {
+        switch (key) {
+          case "supervisorId":
+            query.supervisorId = value;
+            break;
+          case "search":
+            query.name = { contains: value, mode: "insensitive" };
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  }
+
+  // Fetch the paginated class data and the total count using a Prisma transaction
+  const [data, count] = await prisma.$transaction([
+    prisma.class.findMany({
+      where: query,
+      include: {
+        supervisor: true,
+      },
+      take: ITEM_PER_PAGE,
+      skip: ITEM_PER_PAGE * (p - 1),
+    }),
+    prisma.class.count({ where: query }),
+  ]);
+
   return (
     <div className="bg-white p-4 rounded-md flex-1 m-4 mt-0">
-      {/* TOP */}
+      {/* Header section with title, search bar, and action buttons */}
       <div className="flex items-center justify-between">
         <h1 className="hidden md:block text-lg font-semibold">All Classes</h1>
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
           <TableSearch />
           <div className="flex items-center gap-4 self-end">
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-laserYellow">
+            {/* Filter and sort buttons */}
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/filter.png" alt="" width={14} height={14} />
             </button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-laserYellow">
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lamaYellow">
               <Image src="/sort.png" alt="" width={14} height={14} />
             </button>
-            {role === "admin" && <FormModal table="class" type="create" />}
+            {/* Render create button for admin users */}
+            {role === "admin" && <FormContainer table="class" type="create" />}
           </div>
         </div>
       </div>
-      {/* LIST */}
-      <Table columns={columns} renderRow={renderRow} data={classesData} />
-      {/* PAGINATION */}
-      <Pagination />
+      {/* Render the table with the fetched data */}
+      <Table columns={columns} renderRow={renderRow} data={data} />
+      {/* Render the pagination component */}
+      <Pagination page={p} count={count} />
     </div>
   );
 };
