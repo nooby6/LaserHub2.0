@@ -1,5 +1,5 @@
 import Announcements from "@/components/Announcements";
-import AttendanceChartContainer from "@/components/AnnouncementsChartContainer";
+import AttendanceChartContainer from "@/components/AttendaceChartContainer";
 import CountChartContainer from "@/components/CountChartContainer";
 import EventCalendarContainer from "@/components/EventCalenderContainer";
 import FinanceChart from "@/components/FinanceChart";
