@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,20 +13,16 @@ export const metadata: Metadata = {
 };
 
 /**
- * RootLayout component serves as the foundational layout for the application.
- * It wraps the entire application with a consistent HTML structure and applies
- * global styles or configurations.
+ * Root layout component for the application.
  *
- * @param children - The ReactNode elements to be rendered within the layout.
- *                    Typically, this will include the main content of the page.
- *
- * @returns A JSX element that defines the root structure of the application,
- *          including the `<html>` and `<body>` tags.
+ * @param children - The React node(s) to be rendered within the layout.
+ * @returns The root layout structure, including the ClerkProvider for authentication context,
+ *          the HTML structure with language set to English, and the Inter font applied to the body.
+ *          Also includes a ToastContainer for displaying notifications at the bottom-right with a dark theme.
  *
  * @remarks
- * - The `lang` attribute in the `<html>` tag is set to "en" for English language support.
- * - The `className` applied to the `<body>` tag is dynamically set using the `inter.className`,
- *   which is likely a reference to a font or global styling.
+ * - Wraps the entire application with authentication and notification providers.
+ * - Ensures consistent font styling and notification placement across all pages.
  */
 export default function RootLayout({
   children,
@@ -31,8 +30,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          {children} <ToastContainer position="bottom-right" theme="dark" />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
