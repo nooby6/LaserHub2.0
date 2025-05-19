@@ -1,46 +1,29 @@
-import Menu from "@/components/Menu";
-import Navbar from "@/components/Navbar";
-import Image from "next/image";
-import Link from "next/link";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-/**
- * DashboardLayout Component
- * 
- * This component serves as the layout for the dashboard pages. It includes a sidebar on the left
- * and a main content area on the right. The layout is responsive and adjusts based on screen size.
- * 
- * @param {Object} props - Component props
- * @param {React.ReactNode} props.children - The content to be rendered inside the main content area
- * @returns {JSX.Element} The rendered dashboard layout
- */
-export default function DashboardLayout({
-    children,
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "Lama Dev School Management Dashboard",
+  description: "Next.js School Management System",
+};
+
+export default function RootLayout({
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <div className="h-screen flex">
-            {/* LEFT: Sidebar containing the logo and menu */}
-            <div className="w-[14%] md:w-[8%] lg:w-[16%] xl:w-[14%] p-4">
-                {/* Logo and link to the home page */}
-                <Link
-                    href="/"
-                    className="flex items-center justify-center lg:justify-start gap-2"
-                >
-                    <Image src="/logo.jpg" alt="logo" width={32} height={32} />
-                    <span className="hidden lg:block font-bold">Laser Learning Hub</span>
-                </Link>
-                {/* Menu component */}
-                <Menu />
-            </div>
-            
-            {/* RIGHT: Main content area */}
-            <div className="w-[86%] md:w-[92%] lg:w-[84%] xl:w-[86%] bg-[#F7F8FA] overflow-scroll flex flex-col">
-                {/* Navbar component */}
-                <Navbar />
-                {/* Render the children passed to the layout */}
-                {children}
-            </div>
-        </div>
-    );
+  return (
+    <ClerkProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          {children} <ToastContainer position="bottom-right" theme="dark" />
+        </body>
+      </html>
+    </ClerkProvider>
+  );
 }
