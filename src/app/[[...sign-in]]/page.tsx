@@ -2,7 +2,7 @@
 
 // Import necessary modules and components from Clerk, Next.js, and React
 import * as Clerk from "@clerk/elements/common";
-import * as SignIn from "@clek/elements/sign-in";
+import * as SignIn from "@clerk/elements/sign-in";
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -32,20 +32,20 @@ const LoginPage = () => {
                 {/* Sign-in step form */}
                 <SignIn.Step
                     name="start"
-                    className="bg-white p-12 rounded-md shadow-2xl flex flex-col gap-2"
+                    className="bg-white p-12 rounded-md shadow-2xl flex flex-col gap-2 w-[400px] h-[400px] items-center justify-center"
                 >
                     {/* Application logo and title */}
-                    <h1 className="text-xl font-bold flex items-center gap-2">
+                    <h1 className="text-xl font-bold flex items-center gap-2 ">
                         <Image src="/logo.png" alt="" width={24} height={24} />
-                        Laser Lerning Hub
+                        LASER LEARNING HUB
                     </h1>
                     {/* Subtitle for the sign-in form */}
                     <h2 className="text-gray-400">Sign in to your account</h2>
                     {/* Display global authentication errors */}
                     <Clerk.GlobalError className="text-sm text-red-400" />
                     {/* Username input field */}
-                    <Clerk.Field name="identifier" className="flex flex-col gap-2">
-                        <Clerk.Label className="text-xs text-gray-500">
+                    <Clerk.Field name="identifier" className="flex flex-col gap-2 mb-2">
+                        <Clerk.Label className="text-xs text-gray-500 font-semibold">
                             Username
                         </Clerk.Label>
                         <Clerk.Input
@@ -56,8 +56,8 @@ const LoginPage = () => {
                         <Clerk.FieldError className="text-xs text-red-400" />
                     </Clerk.Field>
                     {/* Password input field */}
-                    <Clerk.Field name="password" className="flex flex-col gap-2">
-                        <Clerk.Label className="text-xs text-gray-500">
+                    <Clerk.Field name="password" className="flex flex-col gap-2 mb-2">
+                        <Clerk.Label className="text-xs text-gray-500 font-semibold">
                             Password
                         </Clerk.Label>
                         <Clerk.Input
