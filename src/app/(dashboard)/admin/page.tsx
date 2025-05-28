@@ -5,6 +5,12 @@ import EventCalendarContainer from "@/components/EventCalenderContainer";
 import FinanceChart from "@/components/FinanceChart";
 import UserCard from "@/components/UserCard";
 
+/**
+ * AdminPage component renders the main dashboard for admin users.
+ * It displays user statistics, various charts, event calendar, and announcements.
+ *
+ * @param searchParams - Query parameters from the URL, passed to child components as needed.
+ */
 const AdminPage = ({
   searchParams,
 }: {
@@ -12,15 +18,9 @@ const AdminPage = ({
 }) => {
   return (
     <div className="p-4 flex gap-4 flex-col md:flex-row">
-      {/* LEFT */}
+      {/* LEFT SECTION: User cards and charts */}
       <div className="w-full lg:w-2/3 flex flex-col gap-8">
-        {/* USER CARDS */}
-        <div className="flex gap-4 justify-between flex-wrap">
-          <UserCard type="admin" />
-          <UserCard type="teacher" />
-          <UserCard type="student" />
-          <UserCard type="parent" />
-        </div>
+        {/* USER CARDS:
         {/* MIDDLE CHARTS */}
         <div className="flex gap-4 flex-col lg:flex-row">
           {/* COUNT CHART */}
