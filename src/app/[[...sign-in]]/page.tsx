@@ -32,7 +32,7 @@ const LoginPage = () => {
                 {/* Sign-in step form */}
                 <SignIn.Step
                     name="start"
-                    className="bg-white p-12 rounded-md shadow-2xl flex flex-col gap-2 w-[400px] h-[400px] items-center justify-center"
+                    className="bg-gray-200 p-12 rounded-md shadow-2xl flex flex-col gap-2 w-[400px] h-[400px] items-center justify-center"
                 >
                     {/* Application logo and title */}
                     <h1 className="text-xl font-bold flex items-center gap-2 ">
@@ -42,7 +42,7 @@ const LoginPage = () => {
                     {/* Subtitle for the sign-in form */}
                     <h2 className="text-gray-400">Sign in to your account</h2>
                     {/* Display global authentication errors */}
-                    <Clerk.GlobalError className="text-sm text-red-400" />
+                    <Clerk.GlobalError className="text-sm text-red-400 " />
                     {/* Username input field */}
                     <Clerk.Field name="identifier" className="flex flex-col gap-2 mb-2">
                         <Clerk.Label className="text-xs text-gray-500 font-semibold">
