@@ -27,7 +27,7 @@ const LoginPage = () => {
 
     return (
         // Centered container for the sign-in form with background styling
-        <div className="h-screen flex items-center justify-center bg-lamaSkyLight">
+        <div className="h-screen flex items-center justify-center bg-laserSkyLight">
             <SignIn.Root>
                 {/* Sign-in step form */}
                 <SignIn.Step
