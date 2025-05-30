@@ -1,35 +1,31 @@
 import Announcements from "@/components/Announcements";
-import AttendanceChartContainer from "@/components/AttendaceChartContainer";
-import CountChartContainer from "@/components/CountChartContainer";
-import EventCalendarContainer from "@/components/EventCalenderContainer";
+import AttendanceChart from "@/components/AttendanceChart";
+import CountChart from "@/components/CountChart";
+import EventCalendar from "@/components/EventCalender";
 import FinanceChart from "@/components/FinanceChart";
 import UserCard from "@/components/UserCard";
 
-/**
- * AdminPage component renders the main dashboard for admin users.
- * It displays user statistics, various charts, event calendar, and announcements.
- *
- * @param searchParams - Query parameters from the URL, passed to child components as needed.
- */
-const AdminPage = ({
-  searchParams,
-}: {
-  searchParams: { [keys: string]: string | undefined };
-}) => {
+const AdminPage = () => {
   return (
     <div className="p-4 flex gap-4 flex-col md:flex-row">
-      {/* LEFT SECTION: User cards and charts */}
+      {/* LEFT */}
       <div className="w-full lg:w-2/3 flex flex-col gap-8">
-        {/* USER CARDS:
+        {/* USER CARDS */}
+        <div className="flex gap-4 justify-between flex-wrap">
+          <UserCard type="student" />
+          <UserCard type="teacher" />
+          <UserCard type="parent" />
+          <UserCard type="staff" />
+        </div>
         {/* MIDDLE CHARTS */}
         <div className="flex gap-4 flex-col lg:flex-row">
           {/* COUNT CHART */}
           <div className="w-full lg:w-1/3 h-[450px]">
-            <CountChartContainer searchParams={{}} />
+            <CountChart />
           </div>
           {/* ATTENDANCE CHART */}
           <div className="w-full lg:w-2/3 h-[450px]">
-            <AttendanceChartContainer />
+            <AttendanceChart />
           </div>
         </div>
         {/* BOTTOM CHART */}
@@ -39,8 +35,8 @@ const AdminPage = ({
       </div>
       {/* RIGHT */}
       <div className="w-full lg:w-1/3 flex flex-col gap-8">
-        <EventCalendarContainer searchParams={searchParams}/>
-        <Announcements />
+        <EventCalendar />
+        <Announcements/>
       </div>
     </div>
   );
