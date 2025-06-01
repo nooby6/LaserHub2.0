@@ -126,14 +126,14 @@ const Menu = async () => {
         <div className="mt-4 text-sm">
             {menuItems.map(i=>(
                 <div className="flex flex-col gap-2" key={i.title}>
-                    <span className="hidden lg:block text-gray-400 font-dark my-4">{i.title}</span>
+                    <span className="hidden lg:block text-black-400 font-dark my-4">{i.title}</span>
                     {i.items.map((item) => {
                       if (item.visible.includes(role))
                         return (
                             <Link
                                 key={item.label}
                                 href={item.href}
-                                className="flex items-center gap-2 p-2 md:px-2 rounded-md hover:bg-purple-100 dark:hover:bg-gray-700 transition duration-200 ease-in-out"
+                                className="flex items-center gap-2 p-2 md:px-2 rounded-md hover:bg-purple-100 dark:hover:bg-black-700 transition duration-200 ease-in-out"
                             >
                                 <Image src={item.icon} alt={item.label} width={20} height={20} />
                                 <span>{item.label}</span>

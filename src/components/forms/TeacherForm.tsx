@@ -76,7 +76,7 @@ const TeacherForm = ({
   return (
     <form className="flex flex-col gap-8" onSubmit={onSubmit}>
       <h1 className="text-xl font-semibold">Create a new teacher</h1>
-      <span className="text-xs text-gray-400 font-medium">
+      <span className="text-xs text-black-400 font-medium">
         Authentication Information
       </span>
       <div className="flex justify-between flex-wrap gap-4">
@@ -103,7 +103,7 @@ const TeacherForm = ({
           error={errors?.password}
         />
       </div>
-      <span className="text-xs text-gray-400 font-medium">
+      <span className="text-xs text-black-400 font-medium">
         Personal Information
       </span>
       <div className="flex justify-between flex-wrap gap-4">
@@ -151,9 +151,9 @@ const TeacherForm = ({
           type="date"
         />
         <div className="flex flex-col gap-2 w-full md:w-1/4">
-          <label className="text-xs text-gray-500">Sex</label>
+          <label className="text-xs text-black-500">Sex</label>
           <select
-            className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+            className="ring-[1.5px] ring-black-300 p-2 rounded-md text-sm w-full"
             {...register("sex")}
             defaultValue={data?.sex}
           >
@@ -168,7 +168,7 @@ const TeacherForm = ({
         </div>
         <div className="flex flex-col gap-2 w-full md:w-1/4 justify-center items-center">
           <label
-            className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
+            className="text-xs text-black-500 flex items-center gap-2 cursor-pointer"
             htmlFor="img"
           >
             <Image src="/upload.png" alt="" width={28} height={28} />

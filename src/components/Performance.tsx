@@ -31,7 +31,7 @@ const Performance = () => {
                         cx="50%" // Horizontal center position of the pie chart.
                         cy="50%" // Vertical center position of the pie chart.
                         innerRadius={70} // Inner radius for creating a donut chart effect.
-                        fill="#8884d8" // Default fill color for the pie chart.
+                        fill="#8884d8"
                     />
                 </PieChart>
             </ResponsiveContainer>
@@ -39,7 +39,7 @@ const Performance = () => {
             {/* Centered text inside the pie chart */}
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
                 <h1 className="text-3xl font-bold">9.2</h1> {/* Performance score */}
-                <p className="text-xs text-gray-300">of 10 max LTS</p> {/* Description of the score */}
+                <p className="text-xs text-black-300">of 10 max LTS</p> {/* Description of the score */}
             </div>
 
             {/* Footer text below the pie chart */}

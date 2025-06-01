@@ -5,7 +5,7 @@ const TableSearch = () => {
     return (
         <div
             // Container div styled to be responsive, flexbox-aligned, and visually appealing with rounded corners and a border ring.
-            className="w-full md:w-auto flex items-center gap-2 text-xs rounded-full ring-[1.5px] ring-gray-300 px-2"
+            className="w-full md:w-auto flex items-center gap-2 text-xs rounded-full ring-[1.5px] ring-black-300 px-2"
         >
             {/* Search icon rendered using Next.js Image component for optimized image loading */}
             <Image src="/search.png" alt="Search Icon" width={14} height={14} />

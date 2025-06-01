@@ -31,7 +31,7 @@ const LoginPage = () => {
                 {/* Sign-in form step */}
                 <SignIn.Step
                     name="start"
-                    className="bg-gray-200 p-12 rounded-md shadow-2xl flex flex-col gap-2 w-[400px] h-[400px] items-center justify-center"
+                    className="bg-black-200 p-12 rounded-md shadow-2xl flex flex-col gap-2 w-[400px] h-[400px] items-center justify-center"
                 >
                     {/* Application logo and title */}
                     <h1 className="text-xl font-bold flex items-center gap-2 ">
@@ -39,30 +39,30 @@ const LoginPage = () => {
                         LASER LEARNING HUB
                     </h1>
                     {/* Sign-in subtitle */}
-                    <h2 className="text-gray-400">Sign in to your account</h2>
+                    <h2 className="text-black-400">Sign in to your account</h2>
                     {/* Display global authentication errors */}
                     <Clerk.GlobalError className="text-sm text-red-400 " />
                     {/* Username input field */}
                     <Clerk.Field name="identifier" className="flex flex-col gap-2 mb-2">
-                        <Clerk.Label className="text-xs text-gray-500 font-semibold">
+                        <Clerk.Label className="text-xs text-black-500 font-semibold">
                             Username
                         </Clerk.Label>
                         <Clerk.Input
                             type="text"
                             required
-                            className="p-2 rounded-md ring-1 ring-gray-300"
+                            className="p-2 rounded-md ring-1 ring-black-300"
                         />
                         <Clerk.FieldError className="text-xs text-red-400" />
                     </Clerk.Field>
                     {/* Password input field */}
                     <Clerk.Field name="password" className="flex flex-col gap-2 mb-2">
-                        <Clerk.Label className="text-xs text-gray-500 font-semibold">
+                        <Clerk.Label className="text-xs text-black-500 font-semibold">
                             Password
                         </Clerk.Label>
                         <Clerk.Input
                             type="password"
                             required
-                            className="p-2 rounded-md ring-1 ring-gray-300"
+                            className="p-2 rounded-md ring-1 ring-black-300"
                         />
                         <Clerk.FieldError className="text-xs text-red-400" />
                     </Clerk.Field>

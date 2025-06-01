@@ -54,12 +54,12 @@ const columns = [
 const renderRow = (item: ParentList) => (
   <tr
     key={item.id}
-    className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-laserPurpleLight"
+    className="border-b border-black-200 even:bg-slate-50 text-sm hover:bg-laserPurpleLight"
   >
     <td className="flex items-center gap-4 p-4">
       <div className="flex flex-col">
         <h3 className="font-semibold">{item.name}</h3>
-        <p className="text-xs text-gray-500">{item?.email}</p>
+        <p className="text-xs text-black-500">{item?.email}</p>
       </div>
     </td>
     <td className="hidden md:table-cell">

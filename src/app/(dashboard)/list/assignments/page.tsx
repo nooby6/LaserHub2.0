@@ -60,7 +60,7 @@ const AssignmentListPage = async ({
   const renderRow = (item: AssignmentList) => (
     <tr
       key={item.id}
-      className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-laserPurpleLight"
+      className="border-b border-black-200 even:bg-slate-50 text-sm hover:bg-laserPurpleLight"
     >
       <td className="flex items-center gap-4 p-4">{item.lesson.subject.name}</td>
       <td>{item.lesson.class.name}</td>

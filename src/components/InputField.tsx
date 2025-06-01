@@ -50,11 +50,11 @@ const InputField = ({
 }: InputFieldProps) => {
   return (
     <div className="flex flex-col gap-2 w-full md:w-1/4">
-      <label className="text-xs text-gray-500">{label}</label>
+      <label className="text-xs text-black-500">{label}</label>
       <input
         type={type}
         {...register(name)}
-        className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+        className="ring-[1.5px] ring-black-300 p-2 rounded-md text-sm w-full"
         {...inputProps}
         defaultValue={defaultValue}
       />

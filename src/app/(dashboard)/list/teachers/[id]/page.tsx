@@ -100,7 +100,7 @@ const SingleTeacherPage = async ({
                   <FormContainer table="teacher" type="update" data={teacher} />
                 )}
               </div>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-black-500">
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit.
               </p>
               <div className="flex items-center justify-between gap-2 flex-wrap text-xs font-medium">
@@ -138,7 +138,7 @@ const SingleTeacherPage = async ({
               />
               <div className="">
                 <h1 className="text-xl font-semibold">90%</h1>
-                <span className="text-sm text-gray-400">Attendance</span>
+                <span className="text-sm text-black-400">Attendance</span>
               </div>
             </div>
             {/* CARD */}
@@ -154,7 +154,7 @@ const SingleTeacherPage = async ({
                 <h1 className="text-xl font-semibold">
                   {teacher._count.subjects}
                 </h1>
-                <span className="text-sm text-gray-400">Branches</span>
+                <span className="text-sm text-black-400">Branches</span>
               </div>
             </div>
             {/* CARD */}
@@ -170,7 +170,7 @@ const SingleTeacherPage = async ({
                 <h1 className="text-xl font-semibold">
                   {teacher._count.lessons}
                 </h1>
-                <span className="text-sm text-gray-400">Lessons</span>
+                <span className="text-sm text-black-400">Lessons</span>
               </div>
             </div>
             {/* CARD */}
@@ -186,7 +186,7 @@ const SingleTeacherPage = async ({
                 <h1 className="text-xl font-semibold">
                   {teacher._count.classes}
                 </h1>
-                <span className="text-sm text-gray-400">Classes</span>
+                <span className="text-sm text-black-400">Classes</span>
               </div>
             </div>
           </div>
@@ -201,7 +201,7 @@ const SingleTeacherPage = async ({
       <div className="w-full xl:w-1/3 flex flex-col gap-4">
         <div className="bg-white p-4 rounded-md">
           <h1 className="text-xl font-semibold">Shortcuts</h1>
-          <div className="mt-4 flex gap-4 flex-wrap text-xs text-gray-500">
+          <div className="mt-4 flex gap-4 flex-wrap text-xs text-black-500">
            <Link
               className="p-3 rounded-md bg-laserPurpleLight"
               href={`/list/classes?supervisorId=${teacher.id}`}
