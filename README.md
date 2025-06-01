@@ -66,7 +66,6 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view the 
 
 To learn more about the technologies used in this project, check out the following resources:
 
-- [Laser Hub YouTube Channel](https://youtube.com/laserdev) - Tutorials and updates.
 - [Next.js Documentation](https://nextjs.org/docs) - Comprehensive guide to Next.js.
 - [React Documentation](https://reactjs.org/docs/getting-started.html) - Learn the fundamentals of React.
 
