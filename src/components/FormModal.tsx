@@ -100,7 +100,7 @@ const FormModal = ({
     type === "create"
       ? "bg-laserYellow"
       : type === "update"
-      ? "bg-laserSky"
+      ? "bg-laserPurple"
       : "bg-laserPurple";
 
   const [open, setOpen] = useState(false);

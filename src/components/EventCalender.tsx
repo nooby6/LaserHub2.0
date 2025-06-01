@@ -64,7 +64,7 @@ const events = [
  *
  * @styles
  * - Tailwind CSS classes are used for styling the component.
- * - Alternating border colors (`odd:border-t-laserSky` and `even:border-t-laserPurple`) are applied to event cards.
+ * - Alternating border colors (`odd:border-t-laserPurple` and `even:border-t-laserPurple`) are applied to event cards.
  */
 const EventCalendar = () => {
   const [value, onChange] = useState<Value>(new Date());
@@ -79,7 +79,7 @@ const EventCalendar = () => {
       <div className="flex flex-col gap-4 overflow-y-auto h-[400px]">
         {events.map((event) => (
           <div
-            className="p-5 rounded-md border-2 border-gray-100 border-t-4 odd:border-t-laserSky even:border-t-laserPurple shadow-sm hover:shadow-md transition-all duration-200"
+            className="p-5 rounded-md border-2 border-gray-100 border-t-4 odd:border-t-laserPurple even:border-t-laserPurple shadow-sm hover:shadow-md transition-all duration-200"
             key={event.id}
           >
             <div className="flex items-center justify-between mb-2">

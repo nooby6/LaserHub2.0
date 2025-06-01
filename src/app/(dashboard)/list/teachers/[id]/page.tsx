@@ -81,7 +81,7 @@ const SingleTeacherPage = async ({
         {/* TOP */}
         <div className="flex flex-col lg:flex-row gap-4">
           {/* USER INFO CARD */}
-          <div className="bg-laserSky py-6 px-4 rounded-md flex-1 flex gap-4">
+          <div className="bg-laserPurple py-6 px-4 rounded-md flex-1 flex gap-4">
             <div className="w-1/3">
               <Image
                 src={teacher.img || "/noAvatar.png"}
@@ -203,7 +203,7 @@ const SingleTeacherPage = async ({
           <h1 className="text-xl font-semibold">Shortcuts</h1>
           <div className="mt-4 flex gap-4 flex-wrap text-xs text-gray-500">
            <Link
-              className="p-3 rounded-md bg-laserSkyLight"
+              className="p-3 rounded-md bg-laserPurpleLight"
               href={`/list/classes?supervisorId=${teacher.id}`}
             >
               Teacher&apos;s Classes
@@ -227,7 +227,7 @@ const SingleTeacherPage = async ({
               Teacher&apos;s Exams
             </Link>
             <Link
-              className="p-3 rounded-md bg-laserSkyLight"
+              className="p-3 rounded-md bg-laserPurpleLight"
               href={`/list/assignments?teacherId=${teacher.id}`}
             >
               Teacher&apos;s Assignments

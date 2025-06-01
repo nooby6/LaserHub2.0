@@ -14,8 +14,8 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        laserSky: "#B3EAFB",
-        laserSkyLight: "#EAF8FC",
+        laserPurple: "#B3EAFB",
+        laserPurpleLight: "#EAF8FC",
         laserPurple: "#9A92E0",
         laserPurpleLight: "#ECEBFF",
         laserYellow: "#FAD45C",

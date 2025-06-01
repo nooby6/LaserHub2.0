@@ -41,7 +41,7 @@ const SingleStudentPage = async ({
         {/* TOP */}
         <div className="flex flex-col lg:flex-row gap-4">
           {/* USER INFO CARD */}
-          <div className="bg-laserSky py-6 px-4 rounded-md flex-1 flex gap-4">
+          <div className="bg-laserPurple py-6 px-4 rounded-md flex-1 flex gap-4">
             <div className="w-1/3">
               <Image
                 src={student.img || "/noAvatar.png"}
@@ -160,7 +160,7 @@ const SingleStudentPage = async ({
           <h1 className="text-xl font-semibold">Shortcuts</h1>
           <div className="mt-4 flex gap-4 flex-wrap text-xs text-gray-500">
             <Link
-              className="p-3 rounded-md bg-laserSkyLight"
+              className="p-3 rounded-md bg-laserPurpleLight"
               href={`/list/lessons?classId=${student.class.id}`}
             >
               Student&apos;s Lessons
@@ -178,7 +178,7 @@ const SingleStudentPage = async ({
               Student&apos;s Exams
             </Link>
             <Link
-              className="p-3 rounded-md bg-laserSkyLight"
+              className="p-3 rounded-md bg-laserPurpleLight"
               href={`/list/assignments?classId=${student.class.id}`}
             >
               Student&apos;s Assignments
