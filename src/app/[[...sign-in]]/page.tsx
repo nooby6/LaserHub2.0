@@ -1,6 +1,6 @@
 "use client";
 
-// Import necessary modules and components from Clerk, Next.js, and React
+// Import modules and components from Clerk, Next.js, and React
 import * as Clerk from "@clerk/elements/common";
 import * as SignIn from "@clerk/elements/sign-in";
 import { useUser } from "@clerk/nextjs";
@@ -8,28 +8,27 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-// LoginPage component handles user sign-in and redirects based on user role
+// LoginPage component manages user authentication and role-based redirection
 const LoginPage = () => {
-    // Retrieve user authentication state and user data from Clerk
+    // Retrieve authentication state and user information from Clerk
     const { isLoaded, isSignedIn, user } = useUser();
 
     // Initialize Next.js router for navigation
     const router = useRouter();
 
-    // Redirect user to their role-specific page after sign-in
+    // Redirect authenticated users to their role-specific dashboard
     useEffect(() => {
         const role = user?.publicMetadata.role;
-
         if (role) {
             router.push(`/${role}`);
         }
     }, [user, router]);
 
     return (
-        // Centered container for the sign-in form with background styling
+        // Main container for the sign-in form, centered with background styling
         <div className="h-screen flex items-center justify-center bg-laserSkyLight">
             <SignIn.Root>
-                {/* Sign-in step form */}
+                {/* Sign-in form step */}
                 <SignIn.Step
                     name="start"
                     className="bg-gray-200 p-12 rounded-md shadow-2xl flex flex-col gap-2 w-[400px] h-[400px] items-center justify-center"
@@ -39,7 +38,7 @@ const LoginPage = () => {
                         <Image src="/logo.png" alt="" width={24} height={24} />
                         LASER LEARNING HUB
                     </h1>
-                    {/* Subtitle for the sign-in form */}
+                    {/* Sign-in subtitle */}
                     <h2 className="text-gray-400">Sign in to your account</h2>
                     {/* Display global authentication errors */}
                     <Clerk.GlobalError className="text-sm text-red-400 " />
