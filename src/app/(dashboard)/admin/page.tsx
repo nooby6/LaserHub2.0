@@ -25,7 +25,7 @@ const AdminPage = ({
         <div className="flex gap-4 flex-col lg:flex-row">
           {/* COUNT CHART */}
           <div className="w-full lg:w-1/3 h-[450px]">
-            <CountChartContainer searchParams={searchParams} />
+            <CountChartContainer />
           </div>
           {/* ATTENDANCE CHART */}
           <div className="w-full lg:w-2/3 h-[450px]">
