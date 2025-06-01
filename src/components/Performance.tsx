@@ -44,7 +44,7 @@ const Performance = () => {
 
             {/* Footer text below the pie chart */}
             <h2 className="font-medium absolute bottom-16 left-0 right-0 m-auto text-center">
-                1st Semester - 2nd Semester
+                1st, 2nd, and 3rd Term Performance.
             </h2>
         </div>
     );
