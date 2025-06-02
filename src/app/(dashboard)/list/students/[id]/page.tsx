@@ -1,5 +1,5 @@
 import Announcements from "@/components/Announcements";
-import BigCalendarContainer from "@/components/BigCalenderContainer";
+import BigCalendarContainer from "@/components/BigCalendarContainer";
 import FormContainer from "@/components/FormContainer";
 import Performance from "@/components/Performance";
 import StudentAttendanceCard from "@/components/StudentAttendanceCard";
