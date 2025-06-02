@@ -2,81 +2,88 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import InputField from "../InputField";
 import Image from "next/image";
-
-const schema = z.object({
-  username: z
-    .string()
-    .min(3, { message: "Username must be at least 3 characters long!" })
-    .max(20, { message: "Username must be at most 20 characters long!" }),
-  email: z.string().email({ message: "Invalid email address!" }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters long!" }),
-  firstName: z.string().min(1, { message: "First name is required!" }),
-  lastName: z.string().min(1, { message: "Last name is required!" }),
-  phone: z.string().min(1, { message: "Phone is required!" }),
-  address: z.string().min(1, { message: "Address is required!" }),
-  bloodType: z.string().min(1, { message: "Blood Type is required!" }),
-  birthday: z.date({ message: "Birthday is required!" }),
-  sex: z.enum(["male", "female"], { message: "Sex is required!" }),
-  img: z.instanceof(File, { message: "Image is required" }),
-});
-
-type Inputs = z.infer<typeof schema>;
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { teacherSchema, TeacherSchema } from "@/lib/formValidationSchemas";
+import { useFormState } from "react-dom";
+import { createTeacher, updateTeacher } from "@/lib/actions";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { CldUploadWidget } from "next-cloudinary";
 
 /**
- * A React component for rendering a form to create or update teacher information.
- * This form utilizes `react-hook-form` for form handling and validation, and `zod` for schema validation.
+ * TeacherForm component for creating or updating teacher records.
  *
- * @param {Object} props - The component props.
- * @param {"create" | "update"} props.type - Specifies the form type, either "create" for creating a new teacher or "update" for updating an existing teacher.
- * @param {any} [props.data] - Optional pre-filled data for the form fields, used when updating an existing teacher.
+ * This form handles both creation and update operations for teacher entities,
+ * including authentication and personal information, subject assignment, and photo upload.
  *
- * @returns {JSX.Element} A form component with fields for authentication and personal information.
+ * @param type - Specifies the form mode: "create" for new teachers, "update" for editing existing teachers.
+ * @param data - (Optional) Existing teacher data for pre-filling the form fields when updating.
+ * @param setOpen - Function to control the visibility of the form modal/dialog.
+ * @param relatedData - (Optional) Additional data required by the form, such as available subjects.
  *
  * @remarks
- * - The form includes fields for username, email, password, first name, last name, phone, address, blood type, birthday, sex, and an image upload.
- * - Validation errors are displayed below each field when applicable.
- * - The `onSubmit` handler logs the form data to the console.
+ * - Utilizes React Hook Form for form state management and validation.
+ * - Integrates with Zod for schema-based validation.
+ * - Supports image upload via Cloudinary widget.
+ * - Displays success and error notifications using toast messages.
+ * - Refreshes the router upon successful submission.
  *
- * @example
- * ```tsx
- * <TeacherForm type="create" />
- * <TeacherForm type="update" data={existingTeacherData} />
- * ```
- *
- * @dependencies
- * - `react-hook-form` for form state management.
- * - `zod` for schema validation.
- * - `InputField` component for rendering individual input fields.
- * - `Image` component for rendering the upload icon.
+ * @returns A form element for teacher data entry, including input fields, select dropdowns, and file upload.
  */
 const TeacherForm = ({
   type,
   data,
+  setOpen,
+  relatedData,
 }: {
   type: "create" | "update";
   data?: any;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  relatedData?: any;
 }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({
-    resolver: zodResolver(schema),
+  } = useForm<TeacherSchema>({
+    resolver: zodResolver(teacherSchema),
   });
+
+  const [img, setImg] = useState<any>();
+
+  const [state, formAction] = useFormState(
+    type === "create" ? createTeacher : updateTeacher,
+    {
+      success: false,
+      error: false,
+    }
+  );
 
   const onSubmit = handleSubmit((data) => {
     console.log(data);
+    formAction({ ...data, img: img?.secure_url });
   });
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state.success) {
+      toast(`Teacher has been ${type === "create" ? "created" : "updated"}!`);
+      setOpen(false);
+      router.refresh();
+    }
+  }, [state, router, type, setOpen]);
+
+  const { subjects } = relatedData;
 
   return (
     <form className="flex flex-col gap-8" onSubmit={onSubmit}>
-      <h1 className="text-xl font-semibold">Create a new teacher</h1>
-      <span className="text-xs text-black-400 font-medium">
+      <h1 className="text-xl font-semibold">
+        {type === "create" ? "Create a new teacher" : "Update the teacher"}
+      </h1>
+      <span className="text-xs text-gray-400 font-medium">
         Authentication Information
       </span>
       <div className="flex justify-between flex-wrap gap-4">
@@ -103,23 +110,23 @@ const TeacherForm = ({
           error={errors?.password}
         />
       </div>
-      <span className="text-xs text-black-400 font-medium">
+      <span className="text-xs text-gray-400 font-medium">
         Personal Information
       </span>
       <div className="flex justify-between flex-wrap gap-4">
         <InputField
           label="First Name"
-          name="firstName"
-          defaultValue={data?.firstName}
+          name="name"
+          defaultValue={data?.name}
           register={register}
-          error={errors.firstName}
+          error={errors.name}
         />
         <InputField
           label="Last Name"
-          name="lastName"
-          defaultValue={data?.lastName}
+          name="surname"
+          defaultValue={data?.surname}
           register={register}
-          error={errors.lastName}
+          error={errors.surname}
         />
         <InputField
           label="Phone"
@@ -145,20 +152,30 @@ const TeacherForm = ({
         <InputField
           label="Birthday"
           name="birthday"
-          defaultValue={data?.birthday}
+          defaultValue={data?.birthday.toISOString().split("T")[0]}
           register={register}
           error={errors.birthday}
           type="date"
         />
+        {data && (
+          <InputField
+            label="Id"
+            name="id"
+            defaultValue={data?.id}
+            register={register}
+            error={errors?.id}
+            type="hidden"
+          />
+        )}
         <div className="flex flex-col gap-2 w-full md:w-1/4">
-          <label className="text-xs text-black-500">Sex</label>
+          <label className="text-xs text-gray-500">Sex</label>
           <select
-            className="ring-[1.5px] ring-black-300 p-2 rounded-md text-sm w-full"
+            className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
             {...register("sex")}
             defaultValue={data?.sex}
           >
-            <option value="male">Male</option>
-            <option value="female">Female</option>
+            <option value="MALE">Male</option>
+            <option value="FEMALE">Female</option>
           </select>
           {errors.sex?.message && (
             <p className="text-xs text-red-400">
@@ -166,22 +183,49 @@ const TeacherForm = ({
             </p>
           )}
         </div>
-        <div className="flex flex-col gap-2 w-full md:w-1/4 justify-center items-center">
-          <label
-            className="text-xs text-black-500 flex items-center gap-2 cursor-pointer"
-            htmlFor="img"
+        <div className="flex flex-col gap-2 w-full md:w-1/4">
+          <label className="text-xs text-gray-500">Subjects</label>
+          <select
+            multiple
+            className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+            {...register("subjects")}
+            defaultValue={data?.subjects}
           >
-            <Image src="/upload.png" alt="" width={28} height={28} />
-            <span>Upload a photo</span>
-          </label>
-          <input type="file" id="img" {...register("img")} className="hidden" />
-          {errors.img?.message && (
+            {subjects.map((subject: { id: number; name: string }) => (
+              <option value={subject.id} key={subject.id}>
+                {subject.name}
+              </option>
+            ))}
+          </select>
+          {errors.subjects?.message && (
             <p className="text-xs text-red-400">
-              {errors.img.message.toString()}
+              {errors.subjects.message.toString()}
             </p>
           )}
         </div>
+        <CldUploadWidget
+          uploadPreset="school"
+          onSuccess={(result, { widget }) => {
+            setImg(result.info);
+            widget.close();
+          }}
+        >
+          {({ open }) => {
+            return (
+              <div
+                className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
+                onClick={() => open()}
+              >
+                <Image src="/upload.png" alt="" width={28} height={28} />
+                <span>Upload a photo</span>
+              </div>
+            );
+          }}
+        </CldUploadWidget>
       </div>
+      {state.error && (
+        <span className="text-red-500">Something went wrong!</span>
+      )}
       <button className="bg-blue-400 text-white p-2 rounded-md">
         {type === "create" ? "Create" : "Update"}
       </button>

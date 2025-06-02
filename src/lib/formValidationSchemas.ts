@@ -47,29 +47,6 @@ export const teacherSchema = z.object({
 
 export type TeacherSchema = z.infer<typeof teacherSchema>;
 
-/**
- * Zod schema for validating student form data.
- *
- * This schema enforces the following constraints:
- * - `id`: Optional string identifier for the student.
- * - `username`: Required string, 3-20 characters.
- * - `password`: Optional string, minimum 8 characters, or an empty string.
- * - `name`: Required string, must not be empty (first name).
- * - `surname`: Required string, must not be empty (last name).
- * - `email`: Optional valid email address or an empty string.
- * - `phone`: Optional string for contact number.
- * - `address`: Required string for the student's address.
- * - `img`: Optional string representing the image URL or path.
- * - `bloodType`: Required string, must not be empty.
- * - `birthday`: Required date, coerced from input.
- * - `sex`: Required enum, must be either "MALE" or "FEMALE".
- * - `gradeId`: Required number, minimum value of 1.
- * - `classId`: Required number, minimum value of 1.
- * - `parentId`: Required string, must not be empty.
- *
- * Use this schema to ensure all student data submitted through forms
- * meets the application's validation requirements.
- */
 export const studentSchema = z.object({
   id: z.string().optional(),
   username: z
