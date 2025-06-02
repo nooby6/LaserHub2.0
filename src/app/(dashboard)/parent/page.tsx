@@ -6,10 +6,10 @@ import React from "react";
 // It displays a schedule (using BigCalendar) and announcements in a responsive layout.
 const ParentPage = () => {
     return (
-        <div className="flex-1 p-4 flex gap-4 flex-col xl:flex-row">
+        <div className="flex-1 p-4 flex gap-4 flex-col xl:flex-row bg-gray-300">
             {/* LEFT: Schedule Section */}
             <div className="w-full xl:w-2/3">
-                <div className="h-full bg-white p-4 rounded-md">
+                <div className="h-full bg-white p-4 rounded-md shadow-md">
                     {/* Section Title */}
                     <h1 className="text-xl font-semibold">Schedule (Audrine Whrite)</h1>
                     {/* Calendar Component */}

@@ -3,16 +3,22 @@ import AttendanceChart from "./AttendanceChart";
 import prisma from "@/lib/prisma";
 
 /**
- * AttendanceChartContainer is an asynchronous React component that fetches and processes
+ * AttendanceChartContainer is an asynchronous React functional component that retrieves and processes
  * attendance data for the current week (Monday to Friday) from the database using Prisma.
- * 
+ *
+ * The component:
  * - Determines the date of the most recent Monday.
- * - Queries attendance records from last Monday onwards.
- * - Aggregates the number of present and absent entries for each weekday (Mon-Fri).
- * - Prepares the data in a format suitable for the AttendanceChart component.
- * - Renders a styled container with a header and the attendance chart visualization.
- * 
+ * - Queries the attendance records from that Monday onwards.
+ * - Aggregates the number of present and absent entries for each weekday (Monday to Friday).
+ * - Structures the data for visualization and renders it using the AttendanceChart component.
+ * - Displays a styled container with a header and an options icon.
+ *
  * @returns {Promise<JSX.Element>} A promise that resolves to a JSX element containing the attendance chart UI.
+ *
+ * @remarks
+ * - Assumes the presence of a Prisma client instance named `prisma` and an `AttendanceChart` component.
+ * - Only considers attendance data from Monday to Friday, excluding weekends.
+ * - The attendance data is grouped by weekday and visualized for the current week.
  */
 const AttendanceChartContainer = async () => {
   const today = new Date();
