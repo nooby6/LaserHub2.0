@@ -35,7 +35,7 @@ const LoginPage = () => {
                 >
                     {/* Application logo and title */}
                     <h1 className="text-xl font-bold flex items-center gap-2 ">
-                        <Image src="/logo.png" alt="" width={24} height={24} />
+                        <Image src="/logo.jpg" alt="" width={24} height={24} />
                         LASER LEARNING HUB
                     </h1>
                     {/* Sign-in subtitle */}
