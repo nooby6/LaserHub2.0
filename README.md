@@ -62,12 +62,6 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view the 
 - `components/`: Reusable UI components.
 - `styles/`: Global and component-specific styles.
 
-## Learn More
-
-To learn more about the technologies used in this project, check out the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - Comprehensive guide to Next.js.
-- [React Documentation](https://reactjs.org/docs/getting-started.html) - Learn the fundamentals of React.
 
 ## Contributing
 
