@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@clerk/clerk-sdk-node": "^5.1.6",
-    "@clerk/elements": "^0.23.30",
-    "@clerk/nextjs": "^6.20.1",
+    "@clerk/elements": "^0.23.59",
+    "@clerk/nextjs": "^6.31.6",
     "@hookform/resolvers": "^5.0.1",
     "@prisma/client": "^6.8.2",
     "cloudinary": "^2.6.1",
@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@types/moment": "^2.13.0",
+    "@types/next": "^9.0.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-big-calendar": "^1.16.1",
