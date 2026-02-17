@@ -12,16 +12,6 @@ The Laser Hub School Management Dashboard is a modern web application designed t
 - **Notifications**: Send and receive important updates in real-time.
 - **Customizable Dashboard**: Tailor the interface to suit your institution's needs.
 
-## Getting Started
-
-Follow these steps to set up and run the project locally:
-
-### Prerequisites
-
-Ensure you have the following installed:
-
-- [Node.js](https://nodejs.org/) (LTS version recommended)
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 
 ### Installation
 
