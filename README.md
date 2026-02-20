@@ -19,18 +19,6 @@ Laser Hub is a comprehensive school management dashboard that automates administ
 - Node.js v16+ or Python 3.9+
 - [List other dependencies]
 
-### Installation
-
-```bash
-git clone https://github.com/yourusername/laserhub.git
-cd laserhub
-npm install
-npm start
-```
-
-## Usage
-
-[Add quick start guide and key features]
 
 ## Contributing
 
